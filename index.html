@@ -321,17 +321,17 @@
                     </div>
                     
                     <div class="flex flex-col sm:flex-row justify-center lg:justify-start items-center space-y-4 sm:space-y-0 sm:space-x-6 text-gray-400">
-                        <a href="mailto:papradeepllcs@gmail.com" class="flex items-center space-x-2 hover:text-blue-400 transition-colors text-glow">
+                        <a href="mailto:papradeep11cs@gmail.com" class="flex items-center space-x-2 hover:text-blue-400 transition-colors text-glow">
                             <i class="fas fa-envelope"></i>
-                            <span>papradeepllcs@gmail.com</span>
+                            <span>papradeep11cs@gmail.com</span>
                         </a>
                         <a href="https://linkedin.com/in/pradeep-periyasamy-b385181a0" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 hover:text-blue-400 transition-colors text-glow">
                             <i class="fab fa-linkedin"></i>
                             <span>LinkedIn</span>
                         </a>
-                        <a href="tel:979-422-9834" class="flex items-center space-x-2 hover:text-blue-400 transition-colors text-glow">
+                        <a href="tel:+1-979-422-9834" class="flex items-center space-x-2 hover:text-blue-400 transition-colors text-glow">
                             <i class="fas fa-phone"></i>
-                            <span>979-422-9834</span>
+                            <span>+1 (979) 422-9834</span>
                         </a>
                     </div>
                 </div>
@@ -441,9 +441,6 @@
                 </div>
             </section>
             
-            
-                
-
         </header>
 
         <section id="about" class="py-16 bg-gray-900 rounded-xl px-4">
@@ -455,7 +452,7 @@
                 
                 <div class="bg-gray-800 rounded-xl shadow-lg p-8 md:p-10 border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 fade-in-up">
                     <p class="text-lg text-gray-300 leading-relaxed">
-                        I'm a Master's student in Computer Science at Texas A&M University, driven by a passion for architecting resilient and high-performance systems. For me, it's not just about writing code that works—it's about building systems that are modular, secure, and lightning-fast. I thrive on the challenge of optimizing performance, designing clean APIs, and building scalable microservices from the ground up.
+                        I'm a Master's student in Computer Science at Texas A&M University, driven by a passion for architecting resilient and high-performance systems. For me, it's not just about writing code that works—it's about building systems that are **modular, secure, and lightning-fast**. I thrive on the challenge of optimizing performance, designing clean APIs, and building scalable microservices from the ground up.
                     </p>
                 </div>
             
@@ -534,6 +531,7 @@
                 Work Experience
             </h2>
             
+            <!-- This is the mobile experience timeline -->
             <div class="relative max-w-4xl mx-auto md:hidden fade-in-up">
                 <div class="absolute left-6 top-0 bottom-0 w-1 bg-gray-700 rounded-full"></div>
                 
@@ -666,9 +664,11 @@
                 
             </div>
             
+            <!-- This is the desktop experience tabs -->
             <div class="hidden md:grid md:grid-cols-12 gap-8 max-w-6xl mx-auto fade-in-up" id="experience-tabs">
                 
-                <div class="col-span-4 space-y-2 pr-2">
+                <!-- [CHANGED] Tab list changed from col-span-4 to col-span-3 -->
+                <div class="col-span-3 space-y-2 pr-2">
                     <button class="tab-button w-full rounded-lg border p-4 text-left transition-all border-blue-500/30 bg-blue-500/10 shadow-md" data-tab="optmyzr-sde">
                         <h3 class="font-medium text-blue-400">Software Development Engineer</h3>
                         <p class="text-sm text-white/60">Optmyzr</p>
@@ -695,7 +695,8 @@
                     </button>
                 </div>
             
-                <div class="col-span-8">
+                <!-- [CHANGED] Content area changed from col-span-8 to col-span-9 -->
+                <div class="col-span-9">
                     
                     <div class="tab-content bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up" data-tab="optmyzr-sde">
                         <div class="flex items-start justify-between mb-2">
@@ -1047,7 +1048,7 @@
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
             </p>
             <div class="flex justify-center items-center flex-wrap gap-x-6 gap-y-4 text-gray-400 mb-8">
-                <a href="mailto:papradeepllcs@gmail.com" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                <a href="mailto:papradeep11cs@gmail.com" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
                     <i class="fas fa-envelope fa-lg"></i>
                     <span>Email</span>
                 </a>
@@ -1055,7 +1056,7 @@
                     <i class="fab fa-linkedin fa-lg"></i>
                     <span>LinkedIn</span>
                 </a>
-                <a href="tel:979-422-9834" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                <a href="tel:+1-979-422-9834" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
                     <i class="fas fa-phone fa-lg"></i>
                     <span>Phone</span>
                 </a>
@@ -1116,17 +1117,15 @@
 
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
-            const experienceHeading = document.getElementById('experience-heading');
+            
+            // [REMOVED] All scroll-lock variables
+            // let currentExperienceIndex = 0;
+            // const maxExperienceIndex = tabButtons.length - 1;
+            // let isScrolling = false;
+            // const scrollThreshold = 700; 
 
-            let currentExperienceIndex = 0;
-            const maxExperienceIndex = tabButtons.length - 1;
-            let isScrolling = false;
-            const scrollThreshold = 1000;
-
+            // [SIMPLIFIED] switchTab function no longer handles scroll or index limits
             function switchTab(newIndex) {
-                if (newIndex < 0 || newIndex > maxExperienceIndex) return;
-                
-                currentExperienceIndex = newIndex;
                 const newButton = tabButtons[newIndex];
                 if (!newButton) return;
                 
@@ -1155,6 +1154,8 @@
                     void targetContent.offsetWidth; 
                     targetContent.classList.add('is-visible');
                 }
+                
+                // [REMOVED] All scroll-to-position logic
             }
 
             switchTab(0);
@@ -1165,53 +1166,11 @@
                 });
             });
 
-            const handleWheelScroll = (event) => {
-                if (window.innerWidth < 768) return;
-
-                if (isScrolling) {
-                    event.preventDefault();
-                    return;
-                }
-
-                const deltaY = event.deltaY;
-
-                if (deltaY > 0) {
-                    if (currentExperienceIndex < maxExperienceIndex) {
-                        event.preventDefault();
-                        isScrolling = true;
-                        switchTab(currentExperienceIndex + 1);
-                        setTimeout(() => { isScrolling = false; }, scrollThreshold);
-                    }
-                } else if (deltaY < 0) {
-                    if (currentExperienceIndex > 0) {
-                        event.preventDefault();
-                        isScrolling = true;
-                        switchTab(currentExperienceIndex - 1);
-                        setTimeout(() => { isScrolling = false; }, scrollThreshold);
-                    }
-                }
-            };
+            // [REMOVED] handleWheelScroll function
             
-            const experienceObserverOptions = {
-                root: null,
-                rootMargin: '-80px 0px 0px 0px',
-                threshold: 0
-            };
+            // [REMOVED] Global wheel event listener
+            // window.addEventListener('wheel', handleWheelScroll, { passive: false });
 
-            const experienceObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && entry.boundingClientRect.top <= 80) {
-                        window.addEventListener('wheel', handleWheelScroll, { passive: false });
-                    } else {
-                        window.removeEventListener('wheel', handleWheelScroll);
-                        isScrolling = false;
-                    }
-                });
-            }, experienceObserverOptions);
-
-            if (experienceHeading) {
-                experienceObserver.observe(experienceHeading);
-            }
 
             const hero = document.getElementById('home');
             const tiltElement = document.querySelector('.hero-image-tilt');
