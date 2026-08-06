@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunLearn - Pradeep Periyasamy</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/><text x='50' y='50' dy='.35em' text-anchor='middle' font-size='50' font-family='IBM Plex Mono' fill='%233B82F6'>PP</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                background: 'transparent',
+                mainBkg: 'rgba(15,23,42,0.0)',
+                nodeBorder: '#3b82f6',
+                clusterBkg: 'rgba(15,30,60,0.35)',
+                clusterBorder: 'rgba(59,130,246,0.4)',
+                titleColor: '#93c5fd',
+                edgeLabelBackground: 'transparent',
+                lineColor: '#4b8ef7',
+                primaryColor: 'rgba(30,58,100,0.6)',
+                primaryBorderColor: '#3b82f6',
+                primaryTextColor: '#e2e8f0',
+                secondaryColor: 'rgba(26,46,26,0.5)',
+                tertiaryColor: 'rgba(45,42,26,0.5)',
+                fontSize: '14px'
+            }
+        });
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 3px; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #D1D5DB;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ─── Navbar ─── */
+        nav {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 2px solid #3b82f6;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        nav .inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .brand {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 8px rgba(59,130,246,0.5);
+        }
+        nav .back-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #9ca3af;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+        nav .back-link:hover { color: #60a5fa; }
+
+        /* ─── Background ─── */
+        .bg-video-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .bg-video-wrap video {
+            position: absolute;
+            left: 0;
+            top: -250px;
+            width: 100%;
+            height: 650px;
+            object-fit: cover;
+            opacity: 0.6;
+            transform: rotate(180deg);
+        }
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(0,0,0,0.65);
+        }
+
+        /* ─── Page Layout ─── */
+        .page-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ─── Article card ─── */
+        .article-card {
+            background: rgba(10, 16, 32, 0.35);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(59, 130, 246, 0.18);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(59,130,246,0.07), 0 4px 24px rgba(0,0,0,0.4);
+        }
+
+        /* ─── Article Header — flat, no card, no extra h-padding (sits inside article-body) ─── */
+        .article-card header {
+            padding: 0 0 1.5rem;
+            border-bottom: 1px solid rgba(59,130,246,0.1);
+            background: transparent;
+            margin-bottom: 0;
+        }
+        .article-card header > span:first-child {
+            display: block !important;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem !important;
+            letter-spacing: 0.2em !important;
+            color: #60a5fa !important;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem !important;
+            font-weight: 500;
+        }
+        .article-card header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            margin: 0 0 0.75rem 0;
+            text-shadow: 0 0 40px rgba(59,130,246,0.3);
+        }
+
+        /* ─── Article Meta ─── */
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 0.75rem;
+            margin-top: 1.25rem;
+        }
+        .article-meta span { 
+            font-size: 0.8rem; 
+            color: #9ca3af; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.3rem;
+        }
+        /* Hide dot separators */
+        .article-meta .dot { display: none; }
+        .article-meta .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.65rem;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: #93c5fd;
+            font-family: 'IBM Plex Mono', monospace;
+            letter-spacing: 0.02em;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+        .article-meta .tag:hover {
+            background: rgba(59,130,246,0.22);
+            border-color: rgba(59,130,246,0.5);
+            color: #dbeafe;
+        }
+        .article-meta a[href] {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: #3b82f6;
+            border: 1px solid #2563eb;
+            padding: 0.3rem 0.85rem;
+            border-radius: 999px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 0 12px rgba(59,130,246,0.4);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .article-meta a[href]:hover {
+            background: #2563eb;
+            box-shadow: 0 0 20px rgba(59,130,246,0.6);
+        }
+
+        /* ─── Article Body ─── */
+        .article-body {
+            padding: 3rem 3rem 2.5rem;
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+        }
+
+        /* ─── Drop cap ─── */
+        .article-body > p:first-of-type::first-letter {
+            font-size: 3.2rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            color: #60a5fa;
+            float: left;
+            line-height: 0.75;
+            padding-right: 0.6rem;
+            margin-top: 0.15rem;
+        }
+        /* Space between the header divider line and the first paragraph */
+        .article-body header + p {
+            margin-top: 2.5rem;
+        }
+
+        /* ─── Headings ─── */
+        .article-body h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin: 3.5rem 0 1.25rem;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+            padding-bottom: 0.75rem;
+            position: relative;
+        }
+        .article-body h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, rgba(59,130,246,0.6), rgba(59,130,246,0));
+        }
+        .article-body h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin: 2.5rem 0 1rem;
+            letter-spacing: -0.01em;
+        }
+        .article-body h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin: 2rem 0 0.75rem;
+        }
+
+        /* ─── Paragraphs ─── */
+        .article-body p {
+            margin-bottom: 1.75rem;
+        }
+
+        /* ─── Links ─── */
+        .article-body a {
+            color: #60a5fa;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: rgba(96,165,250,0.35);
+            transition: all 0.2s;
+        }
+        .article-body a:hover {
+            color: #93c5fd;
+            text-decoration-color: rgba(147,197,253,0.7);
+        }
+
+        /* ─── Lists ─── */
+        .article-body ul, .article-body ol {
+            margin-bottom: 1.75rem;
+            padding-left: 1.5rem;
+        }
+        .article-body li {
+            margin-bottom: 0.6rem;
+            line-height: 1.8;
+        }
+        .article-body ul li { list-style-type: disc; }
+        .article-body ol li { list-style-type: decimal; }
+
+        /* ─── Blockquote ─── */
+        .article-body blockquote {
+            margin: 2.5rem 0;
+            padding: 1.25rem 1.75rem;
+            border-left: 3px solid #3b82f6;
+            background: rgba(59,130,246,0.07);
+            border-radius: 0 8px 8px 0;
+            color: #94a3b8;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* ─── Inline code ─── */
+        .article-body code {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(71, 85, 105, 0.6);
+            border-radius: 5px;
+            padding: 0.15rem 0.45rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82em;
+            color: #93c5fd;
+        }
+
+        /* ─── Code blocks ─── */
+        .article-body pre {
+            background: rgba(10, 15, 28, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem 1.75rem;
+            overflow-x: auto;
+            margin: 2rem 0 2.5rem;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 4px 16px rgba(0,0,0,0.4);
+        }
+        .article-body pre code {
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-size: 0.875rem;
+            color: #e2e8f0;
+        }
+
+        /* ─── Mermaid diagrams ─── */
+        .mermaid {
+            background: rgba(8, 12, 28, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(59,130,246,0.12);
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            margin: 2.5rem 0;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        /* ─── Tables ─── */
+        .article-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0 2.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        .article-body th {
+            background: rgba(59, 130, 246, 0.15);
+            color: #f1f5f9;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            padding: 0.85rem 1rem;
+            text-align: left;
+            font-size: 0.82rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(59,130,246,0.25);
+        }
+        .article-body td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+        .article-body tr:last-child td { border-bottom: none; }
+        .article-body tr:hover td { background: rgba(59,130,246,0.05); }
+
+        /* ─── Images ─── */
+        .article-body img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2.5rem auto;
+            border-radius: 10px;
+            border: 1px solid rgba(59,130,246,0.3);
+            box-shadow: 0 0 40px rgba(59,130,246,0.18), 0 0 80px rgba(139,92,246,0.08), 0 8px 32px rgba(0,0,0,0.5);
+            filter: brightness(0.88) saturate(1.1) hue-rotate(5deg);
+            backdrop-filter: blur(4px);
+        }
+
+        /* ─── HR ─── */
+        .article-body hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, rgba(59,130,246,0), rgba(59,130,246,0.4), rgba(59,130,246,0));
+            margin: 3rem 0;
+        }
+
+        /* ─── CTA section glassy card ─── */
+        .article-cta {
+            margin: 2.5rem 2rem 2rem;
+            padding: 2rem 2.5rem;
+            background: linear-gradient(135deg, rgba(15,30,60,0.5) 0%, rgba(10,20,45,0.55) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(59,130,246,0.25);
+            border-radius: 14px;
+            box-shadow: 0 0 40px rgba(59,130,246,0.08), 0 2px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        .article-cta p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .cta-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .cta-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.4rem;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+        /* View Source */
+        .cta-links a:nth-child(1) {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+            box-shadow: 0 0 16px rgba(59,130,246,0.12);
+        }
+        .cta-links a:nth-child(1):hover {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: rgba(59,130,246,0.7);
+            box-shadow: 0 0 24px rgba(59,130,246,0.25);
+            color: #dbeafe;
+        }
+        /* More Projects */
+        .cta-links a:nth-child(2) {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            color: #cbd5e1;
+        }
+        .cta-links a:nth-child(2):hover {
+            background: rgba(51, 65, 85, 0.9);
+            border-color: rgba(100, 116, 139, 0.7);
+            color: #f1f5f9;
+        }
+        /* Let's Connect */
+        .cta-links a:nth-child(3) {
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(14, 165, 233, 0.35);
+            color: #7dd3fc;
+        }
+        .cta-links a:nth-child(3):hover {
+            background: rgba(14, 165, 233, 0.25);
+            border-color: rgba(14,165,233,0.6);
+            color: #bae6fd;
+        }
+
+        /* ─── Footer ─── */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.8rem;
+            color: #4b5563;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ─── Mermaid: transparent, glassy, constrained ─── */
+        .mermaid {
+            align-items: flex-start;
+        }
+        .mermaid svg {
+            background: transparent !important;
+            max-width: 100% !important;
+        }
+        /* Kill root SVG background */
+        .mermaid svg > rect:first-child {
+            fill: transparent !important;
+            fill-opacity: 0 !important;
+        }
+        /* Subgraph/cluster backgrounds — navy glass */
+        .mermaid svg .cluster rect,
+        .mermaid svg [class*="cluster"] rect {
+            fill: rgba(15, 30, 60, 0.35) !important;
+            stroke: rgba(59, 130, 246, 0.3) !important;
+        }
+        /* Node fills — translucent */
+        .mermaid svg .node rect,
+        .mermaid svg .node polygon,
+        .mermaid svg .node circle,
+        .mermaid svg .node ellipse {
+            fill-opacity: 0.72 !important;
+        }
+        /* Edge label boxes — make transparent so only text shows */
+        .mermaid svg .edgeLabel rect,
+        .mermaid svg .edgeLabel foreignObject div {
+            background: transparent !important;
+            fill: transparent !important;
+            stroke: none !important;
+        }
+        .mermaid svg .edgeLabel span,
+        .mermaid svg .edgeLabel p {
+            background: transparent !important;
+            color: #94a3b8 !important;
+        }
+        /* Sequence diagram actors */
+        .mermaid svg .actor {
+            fill: rgba(15, 30, 80, 0.7) !important;
+            stroke: rgba(59, 130, 246, 0.5) !important;
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 640px) {
+            .page-wrap { padding: 1.5rem 0.75rem 4rem; }
+            .article-card header,
+            .article-body,
+            .article-cta { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .article-card header h1 { font-size: 1.5rem; }
+            .cta-links { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="starfield-canvas" style="position:fixed;inset:0;z-index:-1;width:100%;height:100%;opacity:0.6;pointer-events:none;"></canvas>
+
+    <div class="bg-video-wrap">
+        <video src="../blackhole.webm" autoplay loop muted playsinline
+               onerror="this.style.display='none'"></video>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav class="bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 border-b-2 border-blue-500">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="../index.html#home" class="text-xl font-bold text-white tracking-tight" style="font-family: 'IBM Plex Mono', monospace;">
+                    PRADEEP PERIYASAMY
+                </a>
+                <a href="../index.html#projects" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrap">
+        <div class="article-card">
+            <div class="article-body">
+                <header>
+<span style="display:block; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; letter-spacing:0.15em; color:#60a5fa; text-transform:uppercase; margin-bottom:0.5rem;">
+    Android Systems Deep-Dive
+</span>
+<h1>Engineering FunLearn: Building an Educational Sandbox</h1>
+<div class="article-meta">
+    <span><i class="far fa-calendar"></i> May 2026</span>
+    <span class="dot">•</span>
+    <span><i class="far fa-clock"></i> 6 min read</span>
+    <span class="dot">•</span>
+    <span class="tag">Java / Android SDK</span>
+    <span class="tag">SQLite</span>
+    <span class="tag">Firebase Realtime DB</span>
+    <span class="tag">On-Device ML</span>
+    <span class="tag">Custom Views</span>
+    <span class="dot">•</span>
+    <a href="https://github.com/PRADEEPERIYASAMY/FunLearn" target="_blank">
+        <i class="fab fa-github"></i> View Source
+    </a>
+</div>
+</header><p><strong>FunLearn</strong> is an Android learning app for children encompassing tutorials, quizzes, handwriting practice with on-device OCR, a custom coloring engine, and a lightweight community chat. </p>
+<p>Load the next level in FunLearn, and there&#39;s a visible stutter before the screen updates — not from anything fancy, just a raw SQLite query running directly on the UI thread. On a modern device it&#39;s invisible. On the older, lower-end Android hardware this app actually targeted (minSdk 21), it was the difference between a game feeling responsive and feeling broken. That gap between &quot;the naive approach works on my dev phone&quot; and &quot;the naive approach drops frames on the phone a real user has&quot; is the thread that runs through this entire project — and it&#39;s exactly the debt that later justified rebuilding it from scratch as FunlearnV2.</p>
+<h2>Decoupling Content from Progress State</h2>
+<p>A core requirement for a mobile learning app is that progress shouldn&#39;t stall if the network drops mid-session. However, the educational content itself (tutorials, quiz banks) needs to be server-editable so that educators can update lessons without requiring users to download a new APK update from the Play Store.</p>
+<p>To solve this, I split the data layer strictly across two systems: Firebase Realtime Database for content, and local SQLite for progress state.</p>
+<div class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a5f', 'primaryBorderColor': '#3b82f6', 'primaryTextColor': '#e2e8f0', 'secondaryColor': '#1a2e1a', 'tertiaryColor': '#2d2a1a', 'lineColor': '#64748b', 'fontSize': '14px'}}}%%
+flowchart LR
+    classDef cloudStyle fill:#3a2010,stroke:#ea580c,color:#fed7aa
+    classDef moduleStyle fill:#1e3a5f,stroke:#3b82f6,color:#bfdbfe
+    classDef coreStyle fill:#2e1a3a,stroke:#7c3aed,color:#ddd6fe
+    classDef localStyle fill:#1a2e1a,stroke:#16a34a,color:#bbf7d0
+    classDef gateStyle fill:#2d2a1a,stroke:#ca8a04,color:#fde68a
+
+    subgraph Firebase["Firebase (Cloud)"]
+        direction TB
+        AUTH["Firebase Auth"]:::cloudStyle
+        DB["Realtime DB"]:::cloudStyle
+        STORAGE["Firebase Storage"]:::cloudStyle
+        ML["Firebase ML Vision"]:::cloudStyle
+    end
+
+    subgraph AppLayer["FunLearn Android App"]
+        MAIN["MainActivity"]:::coreStyle
+        SIGNIN["SignInActivity"]:::coreStyle
+        PROFILE["Profile Gate"]:::gateStyle
+
+        subgraph Modules["Feature Modules"]
+            TUT["Tutorial UI"]:::moduleStyle
+            QUIZ["Quiz Engine"]:::moduleStyle
+            CHAT["Chat UI"]:::moduleStyle
+            GAME["Game Modules"]:::moduleStyle
+            COLOR["Coloring Engine"]:::moduleStyle
+            WRITE["Handwriting OCR"]:::moduleStyle
+            PDF["E-Book Viewer"]:::moduleStyle
+        end
+
+        SQLITE["Local SQLite"]:::localStyle
+    end
+
+    AUTH -->|uid| DB
+    DB -->|content| TUT & QUIZ & CHAT
+    STORAGE -->|URLs| PDF
+    ML -->|on-device| WRITE
+
+    MAIN --> SIGNIN --> PROFILE
+    PROFILE -->|gated| CHAT
+    PROFILE --> TUT & QUIZ & GAME & COLOR & WRITE & PDF
+    GAME -->|progress| SQLITE
+</div><p>Firebase holds content (tutorials, quiz banks, chat messages) so it can update continuously. SQLite holds the user&#39;s progress ledger locally. This is a simple split, but it&#39;s the architectural reason progress works offline while content remains server-editable.</p>
+<p><em>Split your data by who&#39;s allowed to change it and how often, not by which feature happens to touch it — content that educators edit and progress that a device tracks locally have nothing in common except that a naive design would store them the same way.</em></p>
+<h2>Low-Latency Handwriting Practice via On-Device OCR</h2>
+<p>One of the interactive features is a handwriting practice pad where a child traces a letter. A handwriting loop needs to respond immediately to every stroke attempt without waiting on a network round trip, and it should still work perfectly when the device is offline.</p>
+<p>I initially prototyped the handwriting check against a cloud-based OCR API — the same recognized-text-vs-target-letter comparison, just with the inference call happening server-side instead of on-device. It worked, but it made the core interaction loop feel wrong: a child traces a letter, and there&#39;s a beat — round-trip latency plus whatever the API&#39;s queue looked like that moment — before anything happens. For an adult filling out a form, that&#39;s an acceptable delay. For a five-year-old waiting to see if they got the letter right, a network round trip conflicts directly with a feedback loop that needs to feel instant. Firebase ML Vision&#39;s on-device recognizer removed the round trip entirely — and, as a side effect, meant the feature kept working with no network at all.</p>
+<div class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a5f', 'primaryBorderColor': '#3b82f6', 'primaryTextColor': '#e2e8f0', 'secondaryColor': '#1a2e1a', 'tertiaryColor': '#2d2a1a', 'lineColor': '#64748b', 'fontSize': '14px'}}}%%
+sequenceDiagram
+    actor Child
+    participant Canvas as Drawing Canvas
+    participant Bitmap as Bitmap Rasterizer
+    participant OCR as ML Vision on-device
+    participant Logic as Pass/Fail Logic
+
+    Child->>Canvas: Draw letter on screen
+    Canvas->>Bitmap: Rasterize to Bitmap
+    Bitmap->>OCR: Run text recognizer (no network call)
+    
+    rect rgb(30, 58, 95)
+        OCR-->>Logic: Recognized text string
+        Logic->>Logic: Compare to target letter
+    end
+    
+    alt Match
+        Logic-->>Child: Pass feedback + sound
+    else No match
+        Logic-->>Child: Try again feedback
+    end
+</div><p>The sequence is straightforward but powerful: the child draws a letter on a custom canvas, the canvas is rasterized to a <code>Bitmap</code>, the ML model runs inference locally on the device, and the recognized text is instantly compared to the target letter for immediate pass/fail feedback.</p>
+<h2>Engineering a Performant Coloring Engine</h2>
+<p>To build the interactive coloring book, I needed a way to fill regions of line-art assets cleanly. The first version of the coloring engine was the obvious one: recolor this pixel, recurse into its four neighbors. It worked instantly on the small test swatches I was developing against. It crashed with a <code>StackOverflowError</code> the first time I ran it against one of the actual line-art assets — a few hundred pixels of contiguous white space is a few hundred stack frames deep, and Android&#39;s default thread stack size doesn&#39;t have room for that. That crash is the reason <code>FloodFill.java</code> exists as a scanline, span-queue implementation instead: walk left and right from a seed point to find the whole horizontal span in one pass, fill it, and queue only the boundary points above and below as new seeds — trading a stack that grows with every pixel for one that grows with every row.</p>
+<div class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a5f', 'primaryBorderColor': '#3b82f6', 'primaryTextColor': '#e2e8f0', 'secondaryColor': '#1a2e1a', 'tertiaryColor': '#2d2a1a', 'lineColor': '#64748b', 'fontSize': '14px'}}}%%
+flowchart LR
+    classDef inputStyle fill:#2d2a1a,stroke:#ca8a04,color:#fde68a
+    classDef processStyle fill:#1e3a5f,stroke:#3b82f6,color:#bfdbfe
+    classDef decisionStyle fill:#3a1a2a,stroke:#db2777,color:#fbcfe8
+    classDef outputStyle fill:#1a2e1a,stroke:#16a34a,color:#bbf7d0
+
+    TAP["User taps a region"]:::inputStyle
+    SEED["Get seed pixel"]:::processStyle
+    QUEUE["Initialize queue"]:::processStyle
+    SCAN["Dequeue span\nScan left and right"]:::processStyle
+    FILL["Set pixels to newColor"]:::processStyle
+    ENQUEUE["Enqueue adjacent spans"]:::processStyle
+    CHECK{"Queue empty?"}:::decisionStyle
+    DONE["Render updated Bitmap"]:::outputStyle
+
+    TAP --> SEED --> QUEUE --> SCAN --> FILL --> ENQUEUE --> CHECK
+    CHECK -->|No - keep filling| SCAN
+    CHECK -->|Yes - done| DONE
+</div><p>The scanline implementation avoids stack overflows by processing whole horizontal spans and only queuing the span boundaries above and below. This allowed me to create a shared canvas implementation (<code>PaintView</code> + <code>ColorView</code>) that is highly performant, completely memory-safe, and infinitely reusable across different coloring activities and pattern-tracing modules without any external dependencies.</p>
+<h2>Honest Trade-offs &amp; What&#39;s Next</h2>
+<p>As my first complete solo project, FunLearn proved the product concept, but it accumulated massive structural debt:</p>
+<ol>
+<li><strong>Activity Bloat:</strong> The app consists of 42 flat Activities calling <code>startActivity</code> on each other. Passing typed data between 42 Activities via <code>Intent</code> extras is Android&#39;s original navigation pattern — it works, but every extra is a stringly-typed key with no compile-time guarantee the receiving Activity reads it correctly. Jetpack&#39;s Navigation Component with Safe Args, which FunlearnV2 uses instead, exists specifically to close that gap: extras become generated, typed arguments checked at compile time.</li>
+<li><strong>Main Thread Database Queries:</strong> Some raw SQLite queries execute directly on the UI thread, risking dropped frames on older devices.</li>
+<li><strong>Zero Dependency Injection:</strong> Without a DI framework, testing is nearly impossible and memory leaks are common during rotation.</li>
+</ol>
+<p>These architectural limits inspired the complete rewrite into <strong>FunlearnV2</strong>, which utilizes a strict MVVM pipeline, Hilt DI, Jetpack Navigation, and a dual-backend split to properly scale the feature set. </p>
+<div class="article-cta">
+    <p>Full source code and architecture components available on GitHub.</p>
+    <div class="cta-links">
+        <a href="https://github.com/PRADEEPERIYASAMY/FunLearn" target="_blank"><i class="fab fa-github"></i> View Source</a>
+        <a href="../index.html#projects"><i class="fas fa-layer-group"></i> More Projects</a>
+        <a href="https://linkedin.com/in/pradeep-periyasamy-b385181a0" target="_blank"><i class="fab fa-linkedin"></i> Let's Connect</a>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer id="contact" class="bg-gray-900/50 backdrop-blur-xl border-t-2 border-blue-500 mt-20 relative z-10">
+        <div class="container mx-auto px-4 py-16 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4" style="text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);">
+                Get In Touch
+            </h2>
+            <p class="text-lg text-gray-400 mb-8 max-w-lg mx-auto">
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            </p>
+            <div class="flex justify-center items-center flex-wrap gap-x-6 gap-y-4 text-gray-400 mb-8">
+                <a href="mailto:papradeep11cs@gmail.com" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                    <i class="fas fa-envelope fa-lg"></i>
+                    <span>Email</span>
+                </a>
+                <a href="https://linkedin.com/in/pradeep-periyasamy-b385181a0" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                    <i class="fab fa-linkedin fa-lg"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="tel:+1-979-422-9834" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                    <i class="fas fa-phone fa-lg"></i>
+                    <span>Phone</span>
+                </a>
+            </div>
+            <p class="text-sm text-gray-500 mt-12">
+                &copy; 2026 Pradeep Periyasamy. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            var canvas = document.getElementById('starfield-canvas');
+            if (!canvas || typeof THREE === 'undefined') return;
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 1;
+            var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            function makeTexture() {
+                var c = document.createElement('canvas'); c.width = c.height = 64;
+                var ctx = c.getContext('2d');
+                var g = ctx.createRadialGradient(32,32,0,32,32,32);
+                g.addColorStop(0,'rgba(255,255,255,1)');
+                g.addColorStop(0.3,'rgba(255,255,255,0.8)');
+                g.addColorStop(1,'rgba(255,255,255,0)');
+                ctx.fillStyle = g; ctx.fillRect(0,0,64,64);
+                var t = new THREE.CanvasTexture(c); t.needsUpdate = true; return t;
+            }
+            var geo = new THREE.BufferGeometry();
+            var pos = new Float32Array(5000 * 3);
+            for (var i = 0; i < pos.length; i++) pos[i] = (Math.random() - 0.5) * 2.5;
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            var mat = new THREE.PointsMaterial({ map: makeTexture(), size: 0.005, sizeAttenuation: true, transparent: true, opacity: 0.8, depthWrite: false, blending: THREE.AdditiveBlending });
+            var stars = new THREE.Points(geo, mat);
+            scene.add(stars);
+            window.addEventListener('resize', function () {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            (function animate() {
+                requestAnimationFrame(animate);
+                stars.rotation.x -= 0.0001;
+                stars.rotation.y -= 0.00015;
+                renderer.render(scene, camera);
+            })();
+        })();
+    </script>
+
+</body>
+</html>

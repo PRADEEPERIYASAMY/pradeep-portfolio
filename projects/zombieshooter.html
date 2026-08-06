@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zombie Shooter - Pradeep Periyasamy</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23000'/><text x='50' y='50' dy='.35em' text-anchor='middle' font-size='50' font-family='IBM Plex Mono' fill='%233B82F6'>PP</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                background: 'transparent',
+                mainBkg: 'rgba(15,23,42,0.0)',
+                nodeBorder: '#3b82f6',
+                clusterBkg: 'rgba(15,30,60,0.35)',
+                clusterBorder: 'rgba(59,130,246,0.4)',
+                titleColor: '#93c5fd',
+                edgeLabelBackground: 'transparent',
+                lineColor: '#4b8ef7',
+                primaryColor: 'rgba(30,58,100,0.6)',
+                primaryBorderColor: '#3b82f6',
+                primaryTextColor: '#e2e8f0',
+                secondaryColor: 'rgba(26,46,26,0.5)',
+                tertiaryColor: 'rgba(45,42,26,0.5)',
+                fontSize: '14px'
+            }
+        });
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 3px; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #D1D5DB;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ─── Navbar ─── */
+        nav {
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 2px solid #3b82f6;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        nav .inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .brand {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 8px rgba(59,130,246,0.5);
+        }
+        nav .back-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #9ca3af;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+        nav .back-link:hover { color: #60a5fa; }
+
+        /* ─── Background ─── */
+        .bg-video-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .bg-video-wrap video {
+            position: absolute;
+            left: 0;
+            top: -250px;
+            width: 100%;
+            height: 650px;
+            object-fit: cover;
+            opacity: 0.6;
+            transform: rotate(180deg);
+        }
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(0,0,0,0.65);
+        }
+
+        /* ─── Page Layout ─── */
+        .page-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ─── Article card ─── */
+        .article-card {
+            background: rgba(10, 16, 32, 0.35);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(59, 130, 246, 0.18);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 0 80px rgba(59,130,246,0.07), 0 4px 24px rgba(0,0,0,0.4);
+        }
+
+        /* ─── Article Header — flat, no card, no extra h-padding (sits inside article-body) ─── */
+        .article-card header {
+            padding: 0 0 1.5rem;
+            border-bottom: 1px solid rgba(59,130,246,0.1);
+            background: transparent;
+            margin-bottom: 0;
+        }
+        .article-card header > span:first-child {
+            display: block !important;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem !important;
+            letter-spacing: 0.2em !important;
+            color: #60a5fa !important;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem !important;
+            font-weight: 500;
+        }
+        .article-card header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            margin: 0 0 0.75rem 0;
+            text-shadow: 0 0 40px rgba(59,130,246,0.3);
+        }
+
+        /* ─── Article Meta ─── */
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 0.75rem;
+            margin-top: 1.25rem;
+        }
+        .article-meta span { 
+            font-size: 0.8rem; 
+            color: #9ca3af; 
+            display: flex; 
+            align-items: center; 
+            gap: 0.3rem;
+        }
+        /* Hide dot separators */
+        .article-meta .dot { display: none; }
+        .article-meta .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.65rem;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: #93c5fd;
+            font-family: 'IBM Plex Mono', monospace;
+            letter-spacing: 0.02em;
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
+        .article-meta .tag:hover {
+            background: rgba(59,130,246,0.22);
+            border-color: rgba(59,130,246,0.5);
+            color: #dbeafe;
+        }
+        .article-meta a[href] {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: #3b82f6;
+            border: 1px solid #2563eb;
+            padding: 0.3rem 0.85rem;
+            border-radius: 999px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 0 12px rgba(59,130,246,0.4);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .article-meta a[href]:hover {
+            background: #2563eb;
+            box-shadow: 0 0 20px rgba(59,130,246,0.6);
+        }
+
+        /* ─── Article Body ─── */
+        .article-body {
+            padding: 3rem 3rem 2.5rem;
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+        }
+
+        /* ─── Drop cap ─── */
+        .article-body > p:first-of-type::first-letter {
+            font-size: 3.2rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            color: #60a5fa;
+            float: left;
+            line-height: 0.75;
+            padding-right: 0.6rem;
+            margin-top: 0.15rem;
+        }
+        /* Space between the header divider line and the first paragraph */
+        .article-body header + p {
+            margin-top: 2.5rem;
+        }
+
+        /* ─── Headings ─── */
+        .article-body h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin: 3.5rem 0 1.25rem;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+            padding-bottom: 0.75rem;
+            position: relative;
+        }
+        .article-body h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, rgba(59,130,246,0.6), rgba(59,130,246,0));
+        }
+        .article-body h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin: 2.5rem 0 1rem;
+            letter-spacing: -0.01em;
+        }
+        .article-body h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin: 2rem 0 0.75rem;
+        }
+
+        /* ─── Paragraphs ─── */
+        .article-body p {
+            margin-bottom: 1.75rem;
+        }
+
+        /* ─── Links ─── */
+        .article-body a {
+            color: #60a5fa;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: rgba(96,165,250,0.35);
+            transition: all 0.2s;
+        }
+        .article-body a:hover {
+            color: #93c5fd;
+            text-decoration-color: rgba(147,197,253,0.7);
+        }
+
+        /* ─── Lists ─── */
+        .article-body ul, .article-body ol {
+            margin-bottom: 1.75rem;
+            padding-left: 1.5rem;
+        }
+        .article-body li {
+            margin-bottom: 0.6rem;
+            line-height: 1.8;
+        }
+        .article-body ul li { list-style-type: disc; }
+        .article-body ol li { list-style-type: decimal; }
+
+        /* ─── Blockquote ─── */
+        .article-body blockquote {
+            margin: 2.5rem 0;
+            padding: 1.25rem 1.75rem;
+            border-left: 3px solid #3b82f6;
+            background: rgba(59,130,246,0.07);
+            border-radius: 0 8px 8px 0;
+            color: #94a3b8;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* ─── Inline code ─── */
+        .article-body code {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(71, 85, 105, 0.6);
+            border-radius: 5px;
+            padding: 0.15rem 0.45rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82em;
+            color: #93c5fd;
+        }
+
+        /* ─── Code blocks ─── */
+        .article-body pre {
+            background: rgba(10, 15, 28, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem 1.75rem;
+            overflow-x: auto;
+            margin: 2rem 0 2.5rem;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 4px 16px rgba(0,0,0,0.4);
+        }
+        .article-body pre code {
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-size: 0.875rem;
+            color: #e2e8f0;
+        }
+
+        /* ─── Mermaid diagrams ─── */
+        .mermaid {
+            background: rgba(8, 12, 28, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(59,130,246,0.12);
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
+            margin: 2.5rem 0;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        /* ─── Tables ─── */
+        .article-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0 2.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(59,130,246,0.2);
+        }
+        .article-body th {
+            background: rgba(59, 130, 246, 0.15);
+            color: #f1f5f9;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            padding: 0.85rem 1rem;
+            text-align: left;
+            font-size: 0.82rem;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(59,130,246,0.25);
+        }
+        .article-body td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+        .article-body tr:last-child td { border-bottom: none; }
+        .article-body tr:hover td { background: rgba(59,130,246,0.05); }
+
+        /* ─── Images ─── */
+        .article-body img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2.5rem auto;
+            border-radius: 10px;
+            border: 1px solid rgba(59,130,246,0.3);
+            box-shadow: 0 0 40px rgba(59,130,246,0.18), 0 0 80px rgba(139,92,246,0.08), 0 8px 32px rgba(0,0,0,0.5);
+            filter: brightness(0.88) saturate(1.1) hue-rotate(5deg);
+            backdrop-filter: blur(4px);
+        }
+
+        /* ─── HR ─── */
+        .article-body hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, rgba(59,130,246,0), rgba(59,130,246,0.4), rgba(59,130,246,0));
+            margin: 3rem 0;
+        }
+
+        /* ─── CTA section glassy card ─── */
+        .article-cta {
+            margin: 2.5rem 2rem 2rem;
+            padding: 2rem 2.5rem;
+            background: linear-gradient(135deg, rgba(15,30,60,0.5) 0%, rgba(10,20,45,0.55) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(59,130,246,0.25);
+            border-radius: 14px;
+            box-shadow: 0 0 40px rgba(59,130,246,0.08), 0 2px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        .article-cta p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .cta-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .cta-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.4rem;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+        /* View Source */
+        .cta-links a:nth-child(1) {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+            box-shadow: 0 0 16px rgba(59,130,246,0.12);
+        }
+        .cta-links a:nth-child(1):hover {
+            background: rgba(59, 130, 246, 0.3);
+            border-color: rgba(59,130,246,0.7);
+            box-shadow: 0 0 24px rgba(59,130,246,0.25);
+            color: #dbeafe;
+        }
+        /* More Projects */
+        .cta-links a:nth-child(2) {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+            color: #cbd5e1;
+        }
+        .cta-links a:nth-child(2):hover {
+            background: rgba(51, 65, 85, 0.9);
+            border-color: rgba(100, 116, 139, 0.7);
+            color: #f1f5f9;
+        }
+        /* Let's Connect */
+        .cta-links a:nth-child(3) {
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(14, 165, 233, 0.35);
+            color: #7dd3fc;
+        }
+        .cta-links a:nth-child(3):hover {
+            background: rgba(14, 165, 233, 0.25);
+            border-color: rgba(14,165,233,0.6);
+            color: #bae6fd;
+        }
+
+        /* ─── Footer ─── */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.8rem;
+            color: #4b5563;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ─── Mermaid: transparent, glassy, constrained ─── */
+        .mermaid {
+            align-items: flex-start;
+        }
+        .mermaid svg {
+            background: transparent !important;
+            max-width: 100% !important;
+        }
+        /* Kill root SVG background */
+        .mermaid svg > rect:first-child {
+            fill: transparent !important;
+            fill-opacity: 0 !important;
+        }
+        /* Subgraph/cluster backgrounds — navy glass */
+        .mermaid svg .cluster rect,
+        .mermaid svg [class*="cluster"] rect {
+            fill: rgba(15, 30, 60, 0.35) !important;
+            stroke: rgba(59, 130, 246, 0.3) !important;
+        }
+        /* Node fills — translucent */
+        .mermaid svg .node rect,
+        .mermaid svg .node polygon,
+        .mermaid svg .node circle,
+        .mermaid svg .node ellipse {
+            fill-opacity: 0.72 !important;
+        }
+        /* Edge label boxes — make transparent so only text shows */
+        .mermaid svg .edgeLabel rect,
+        .mermaid svg .edgeLabel foreignObject div {
+            background: transparent !important;
+            fill: transparent !important;
+            stroke: none !important;
+        }
+        .mermaid svg .edgeLabel span,
+        .mermaid svg .edgeLabel p {
+            background: transparent !important;
+            color: #94a3b8 !important;
+        }
+        /* Sequence diagram actors */
+        .mermaid svg .actor {
+            fill: rgba(15, 30, 80, 0.7) !important;
+            stroke: rgba(59, 130, 246, 0.5) !important;
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 640px) {
+            .page-wrap { padding: 1.5rem 0.75rem 4rem; }
+            .article-card header,
+            .article-body,
+            .article-cta { padding-left: 1.25rem; padding-right: 1.25rem; }
+            .article-card header h1 { font-size: 1.5rem; }
+            .cta-links { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="starfield-canvas" style="position:fixed;inset:0;z-index:-1;width:100%;height:100%;opacity:0.6;pointer-events:none;"></canvas>
+
+    <div class="bg-video-wrap">
+        <video src="../blackhole.webm" autoplay loop muted playsinline
+               onerror="this.style.display='none'"></video>
+    </div>
+    <div class="bg-overlay"></div>
+
+    <nav class="bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 border-b-2 border-blue-500">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="../index.html#home" class="text-xl font-bold text-white tracking-tight" style="font-family: 'IBM Plex Mono', monospace;">
+                    PRADEEP PERIYASAMY
+                </a>
+                <a href="../index.html#projects" class="text-gray-300 hover:text-blue-400 transition-colors font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrap">
+        <div class="article-card">
+            <div class="article-body">
+                <header>
+<span style="display:block; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; letter-spacing:0.15em; color:#60a5fa; text-transform:uppercase; margin-bottom:0.5rem;">
+    Game Systems Deep-Dive
+</span>
+<h1>Engineering Zombie Shooter: Unity Systems Design</h1>
+<div class="article-meta">
+    <span><i class="far fa-calendar"></i> May 2026</span>
+    <span class="dot">•</span>
+    <span><i class="far fa-clock"></i> 7 min read</span>
+    <span class="dot">•</span>
+    <span class="tag">Unity / C#</span>
+    <span class="tag">Hitscan Combat</span>
+    <span class="tag">State Machine AI</span>
+    <span class="tag">Component Architecture</span>
+    <span class="dot">•</span>
+    <a href="https://github.com/PRADEEPERIYASAMY/Zombie-Shooter" target="_blank">
+        <i class="fab fa-github"></i> View Source
+    </a>
+</div>
+</header><p><strong>Zombie Shooter</strong> is a first-person zombie survival shooter built in Unity. It was designed as a hands-on exercise in component-based game architecture, C# gameplay scripting, and Unity&#39;s physics, AI, and animation systems.</p>
+<p>Fire a real gun in Unity by spawning a <code>Rigidbody</code> bullet per shot, and physics stops being free. At a modest fire rate that&#39;s a handful of new rigidbodies a second, each one entering the physics simulation, colliding, and needing cleanup. At an automatic weapon&#39;s actual fire rate, that would incur dozens of physics objects spawned and destroyed every second, purely to answer &quot;did this shot hit something&quot; — a question a single raycast answers in one frame with no simulation at all. That gap between &quot;simulate the bullet&quot; and &quot;just ask what it would have hit&quot; is why every weapon in this project fires a hitscan ray instead of a physical projectile.</p>
+<p>Here is how the core systems were engineered, and the architectural trade-offs made along the way.</p>
+<h2>The Hitscan Combat Pipeline</h2>
+<p>Hitscan is the standard approach in nearly every fast-paced shooter — Counter-Strike, Call of Duty, Overwatch&#39;s non-projectile weapons — for exactly this reason: it trades bullet travel-time and drop-off realism for deterministic, cheap-to-compute hit detection. Slower, heavier weapons (rockets, grenades) are where games typically switch back to real projectile simulation, because the player&#39;s expectation of &quot;this took time to arrive&quot; actually matters there.</p>
+<div class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a5f', 'primaryBorderColor': '#3b82f6', 'primaryTextColor': '#e2e8f0', 'secondaryColor': '#1a2e1a', 'tertiaryColor': '#2d2a1a', 'lineColor': '#64748b', 'fontSize': '14px'}}}%%
+sequenceDiagram
+    actor Player
+    participant Weapon as Weapon.cs
+    participant Ammo as Ammo.cs
+    participant Physics as Unity Physics
+    participant Enemy as EnemyHealth.cs
+    
+    Player->>Weapon: Left Click (Input)
+    activate Weapon
+    Weapon->>Weapon: Check canShoot == true
+    Weapon->>Ammo: GetCurrentAmmo()
+    alt Has Ammo
+        Weapon->>Ammo: ReduceCurrentAmmo()
+        Weapon->>Physics: Physics.Raycast(CameraForward)
+        activate Physics
+        alt Ray hits Enemy
+            Physics-->>Weapon: RaycastHit (Enemy)
+            
+            rect rgb(78, 52, 46)
+                Weapon->>Enemy: TakeDamage(amount)
+                Weapon->>Weapon: Spawn Hit Impact
+            end
+            
+        else Ray misses
+            Physics-->>Weapon: RaycastHit (Env)
+        end
+        deactivate Physics
+        Weapon->>Weapon: Play Audio & Flash
+        Weapon->>Weapon: yield return WaitForSeconds
+        Weapon->>Weapon: canShoot = true
+    end
+    deactivate Weapon
+</div><p>When the player clicks, a <code>Physics.Raycast</code> is fired directly down the camera&#39;s forward vector. If the ray intersects an object with an <code>EnemyHealth</code> component, damage is applied instantly. The fire rate is governed by a simple coroutine that yields on <code>WaitForSeconds(timeBetweenShots)</code> before resetting the <code>canShoot</code> flag. This avoids the cost of instantiating and simulating physical bullets entirely.</p>
+<p><em>A raycast doesn&#39;t need to know it&#39;s not a bullet — the player can&#39;t tell the difference between &quot;we simulated physics&quot; and &quot;we asked physics a fast question,&quot; and the frame budget can.</em></p>
+<h2>Distance-Gated Enemy AI</h2>
+<p>Enemies use Unity&#39;s <code>NavMeshAgent</code> for pathfinding, but calling <code>NavMeshAgent.SetDestination()</code> every frame for every idle zombie in the level is computationally wasteful — if 50 zombies are constantly calculating paths toward the player, the CPU budget vanishes into the navigation system.</p>
+<p>To keep idle enemies cheap, I designed a two-state behavior model (Idle vs Provoked).</p>
+<div class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a5f', 'primaryBorderColor': '#3b82f6', 'primaryTextColor': '#e2e8f0', 'secondaryColor': '#1a2e1a', 'tertiaryColor': '#2d2a1a', 'lineColor': '#64748b', 'fontSize': '14px'}}}%%
+stateDiagram-v2
+    classDef idle fill:#1a2e1a,stroke:#16a34a,stroke-width:2px,color:white
+    classDef provoked fill:#3a1a2a,stroke:#db2777,stroke-width:2px,color:white
+    classDef action fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:white
+    
+    [*] --> Idle: Spawn
+    class Idle idle
+    
+    Idle --> Provoked: Player enters chaseRange
+    Idle --> Provoked: EnemyHealth.OnDamage()
+    
+    state Provoked {
+        [*] --> EvaluatingDistance
+        EvaluatingDistance --> Chasing: Outside attack range
+        EvaluatingDistance --> Attacking: Inside attack range
+        
+        class EvaluatingDistance action
+        class Chasing action
+        class Attacking action
+        
+        Chasing --> NavMeshAgent: SetDestination(Player)
+        Attacking --> EnemyAttack: Trigger Attack Animation
+    }
+    class Provoked provoked
+    
+    Provoked --> Dead: Health drops to 0
+    Dead --> [*]: Disable NavMeshAgent
+</div><p>Each frame, the <code>EnemyAI</code> computes a simple arithmetic <code>Vector3.Distance</code> to the player. Only if the player breaches the <code>chaseRange</code> (or if the zombie takes damage) does the zombie enter the Provoked state and begin calling the expensive <code>NavMeshAgent.SetDestination()</code> method. This effectively culls AI overhead for distant enemies.</p>
+<h2>Reflection vs Direct Dispatch</h2>
+<p><code>EnemyHealth.TakeDamage()</code> dispatches via <code>BroadcastMessage(&quot;OnDamage&quot;)</code> — a string-keyed message sent via reflection to every component on the GameObject. It works, and it&#39;s genuinely convenient: any script that wants to react to damage just needs a method named <code>OnDamage</code>, no interface, no registration. But reflection-based dispatch is measurably slower than a direct call or a C# event — every invocation pays a runtime lookup cost that a compiled method call doesn&#39;t. At this project&#39;s enemy count, that cost is invisible. It stops being invisible once enemy count scales past what this project&#39;s single small level ever asks of it — a threshold this project never had to find, because it was never a reasonable question at this scope.</p>
+<h2>Game Over State via Component Mutation</h2>
+<p><code>DeathHandler.cs</code> and <code>EndGame.cs</code> each implement the exact same five-step shutdown sequence — enable the game-over canvas, freeze <code>Time.timeScale</code>, unlock the cursor, disable the weapon scripts — written independently rather than sharing one path. That&#39;s not a hypothetical risk, it&#39;s already happened once: two entry points to &quot;the player has stopped playing&quot; (death vs. an explicit end-game trigger) drifted into two copies of the same logic. The fix is straightforward — extract both into a shared <code>GameOverController</code> — but the bug this kind of duplication actually causes is worse than the extra code: if one path gets a bugfix or a new step (say, a stats screen) and the other doesn&#39;t, the two &quot;game over&quot; experiences silently diverge.</p>
+<div class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a5f', 'primaryBorderColor': '#3b82f6', 'primaryTextColor': '#e2e8f0', 'secondaryColor': '#1a2e1a', 'tertiaryColor': '#2d2a1a', 'lineColor': '#64748b', 'fontSize': '14px'}}}%%
+stateDiagram-v2
+    classDef play fill:#1a2e1a,stroke:#16a34a,color:white
+    classDef dead fill:#3a1a2a,stroke:#db2777,color:white
+    classDef action fill:#2d2a1a,stroke:#ca8a04,color:white
+    
+    [*] --> Playing: Scene Loaded
+    class Playing play
+    
+    Playing --> GameOverSequence: Health drops to 0
+    
+    state GameOverSequence {
+        [*] --> ShowUI: Enable Canvas
+        ShowUI --> FreezeTime: timeScale = 0
+        FreezeTime --> UnlockCursor: lockState = None
+        UnlockCursor --> DisableWeapons: Scripts Off
+        
+        class ShowUI action
+        class FreezeTime action
+        class UnlockCursor action
+        class DisableWeapons action
+    }
+    class GameOverSequence dead
+    
+    GameOverSequence --> Playing: ReloadGame()
+    GameOverSequence --> [*]: QuitGame()
+</div><p>When <code>PlayerHealth</code> hits zero, the <code>DeathHandler</code> freezes the simulation by setting <code>Time.timeScale = 0</code>, unlocks the cursor, and disables the weapon scripts. It intentionally does not reload the scene. Freezing in place avoids the cost of a reload and preserves the exact state of the world for the Game Over UI overlay.</p>
+<h2>Honest Trade-offs &amp; What&#39;s Next</h2>
+<p>As this was an early systems exercise, it contains a few known anti-patterns that I would not repeat in production today: </p>
+<ol>
+<li><strong>Duplicated Shutdown Logic.</strong> <code>DeathHandler</code> and <code>EndGame</code> independently implement the identical five-step game-over sequence rather than sharing one path — the clearest refactor candidate in the codebase.</li>
+<li><strong><code>FindObjectOfType</code> for Cross-Script References.</strong> Several scripts locate collaborators at runtime via a full-scene type search rather than caching a reference once at <code>Start()</code>. Harmless at this project&#39;s single-level, sparse-object scale; it does not scale to a level with many objects of the same type, since every call re-walks the scene graph.</li>
+<li><strong>Garbage Collection Spikes:</strong> The lack of a proper object pool for bullet impacts causes unnecessary Garbage Collection allocation during heavy firefights, which can lead to micro-stutters.</li>
+</ol>
+<p>Despite these limitations, the core architectural split between decoupled component scripts remains clean.</p>
+<div class="article-cta">
+    <p>Full source code and architecture components available on GitHub.</p>
+    <div class="cta-links">
+        <a href="https://github.com/PRADEEPERIYASAMY/Zombie-Shooter" target="_blank"><i class="fab fa-github"></i> View Source</a>
+        <a href="../index.html#projects"><i class="fas fa-layer-group"></i> More Projects</a>
+        <a href="https://linkedin.com/in/pradeep-periyasamy-b385181a0" target="_blank"><i class="fab fa-linkedin"></i> Let's Connect</a>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer id="contact" class="bg-gray-900/50 backdrop-blur-xl border-t-2 border-blue-500 mt-20 relative z-10">
+        <div class="container mx-auto px-4 py-16 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4" style="text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);">
+                Get In Touch
+            </h2>
+            <p class="text-lg text-gray-400 mb-8 max-w-lg mx-auto">
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            </p>
+            <div class="flex justify-center items-center flex-wrap gap-x-6 gap-y-4 text-gray-400 mb-8">
+                <a href="mailto:papradeep11cs@gmail.com" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                    <i class="fas fa-envelope fa-lg"></i>
+                    <span>Email</span>
+                </a>
+                <a href="https://linkedin.com/in/pradeep-periyasamy-b385181a0" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                    <i class="fab fa-linkedin fa-lg"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="tel:+1-979-422-9834" class="flex items-center space-x-2 text-lg hover:text-blue-400 transition-colors">
+                    <i class="fas fa-phone fa-lg"></i>
+                    <span>Phone</span>
+                </a>
+            </div>
+            <p class="text-sm text-gray-500 mt-12">
+                &copy; 2026 Pradeep Periyasamy. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            var canvas = document.getElementById('starfield-canvas');
+            if (!canvas || typeof THREE === 'undefined') return;
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 1;
+            var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            function makeTexture() {
+                var c = document.createElement('canvas'); c.width = c.height = 64;
+                var ctx = c.getContext('2d');
+                var g = ctx.createRadialGradient(32,32,0,32,32,32);
+                g.addColorStop(0,'rgba(255,255,255,1)');
+                g.addColorStop(0.3,'rgba(255,255,255,0.8)');
+                g.addColorStop(1,'rgba(255,255,255,0)');
+                ctx.fillStyle = g; ctx.fillRect(0,0,64,64);
+                var t = new THREE.CanvasTexture(c); t.needsUpdate = true; return t;
+            }
+            var geo = new THREE.BufferGeometry();
+            var pos = new Float32Array(5000 * 3);
+            for (var i = 0; i < pos.length; i++) pos[i] = (Math.random() - 0.5) * 2.5;
+            geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+            var mat = new THREE.PointsMaterial({ map: makeTexture(), size: 0.005, sizeAttenuation: true, transparent: true, opacity: 0.8, depthWrite: false, blending: THREE.AdditiveBlending });
+            var stars = new THREE.Points(geo, mat);
+            scene.add(stars);
+            window.addEventListener('resize', function () {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            (function animate() {
+                requestAnimationFrame(animate);
+                stars.rotation.x -= 0.0001;
+                stars.rotation.y -= 0.00015;
+                renderer.render(scene, camera);
+            })();
+        })();
+    </script>
+
+</body>
+</html>

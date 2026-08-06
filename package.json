@@ -1,0 +1,24 @@
+{
+  "name": "pradeep-portfolio",
+  "version": "1.0.0",
+  "description": "**🔗 Live Site:** [https://pradeeperiyasamy.github.io/pradeep-portfolio/](https://pradeeperiyasamy.github.io/pradeep-portfolio/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PRADEEPERIYASAMY/pradeep-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/PRADEEPERIYASAMY/pradeep-portfolio/issues"
+  },
+  "homepage": "https://github.com/PRADEEPERIYASAMY/pradeep-portfolio#readme",
+  "dependencies": {
+    "marked": "^18.0.7"
+  }
+}
