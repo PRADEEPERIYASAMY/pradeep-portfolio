@@ -4,7 +4,8 @@
   "description": "**🔗 Live Site:** [https://pradeeperiyasamy.github.io/pradeep-portfolio/](https://pradeeperiyasamy.github.io/pradeep-portfolio/)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx live-server"
   },
   "repository": {
     "type": "git",
