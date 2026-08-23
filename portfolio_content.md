@@ -133,7 +133,7 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 **College Station, TX**
 - **Master of Computer Science**
 - *Aug 2025 - May 2027* | GPA: 3.83/4.0
-- **Coursework:** Analysis of Algorithms, Distributed Systems & Cloud Computing, Deep Learning, Operating Systems, Artificial Intelligence, Information Storage & Retrieval, Data Mining and Analysis, Network Security, Software Engineering.
+- **Coursework:** Distributed Systems & Cloud Computing, Analysis of Algorithms, Deep Learning, Operating Systems, Artificial Intelligence, Information Storage & Retrieval, Network Security, Software Engineering.
 
 ### National Institute of Technology
 **Tiruchirappalli, India**
