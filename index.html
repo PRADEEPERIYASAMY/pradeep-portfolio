@@ -665,12 +665,16 @@
                                 <span class="text-sm text-gray-400">Jun 2023 - Aug 2025</span>
                             </div>
                             <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
-                                <li>Architected a distributed analytics backend using DuckDB Parquet, cutting query time
-                                    on 10M+ rows from 10 minutes to under 1 second.</li>
-                                <li>Engineered a custom GraphQL query builder to parse HotChocolate requests into native
-                                    DuckDB SQL.</li>
-                                <li>Implemented an AI summarization engine to distill millions of rule execution data
-                                    points, reducing reliance on customer success teams by 80%.</li>
+                                <li>Architected distributed GraphQL query layer reducing dashboard load times from 10–30 min → <1 sec (60–180× improvement); pivoted MongoDB → DuckDB mid-project when performance hit a wall.</li>
+                                <li>Engineered custom HotChocolate provider parsing GraphQL requests into native DuckDB SQL, eliminating 99% redundant API calls across fragmented team-specific fetching scripts.</li>
+                                <li>Evolved multi-account dashboard prototype into production system using Redis distributed locks for cache invalidation, decoupling frontend from platform-specific REST models via GraphQL schema.</li>
+                                <li>Implemented data ingestion pipeline unifying Google, Bing, Amazon API data into Parquet format on S3, supporting analytics on 10M+ rows with currency normalization across multi-currency portfolios.</li>
+                                <li>Led cross-platform metric unification effort establishing single source of truth for ROAS, CPA, impression volume across all ad platforms; mentored team, conducted KT sessions on GraphQL infrastructure.</li>
+                                <li>Designed centralized email consolidation engine reducing enterprise email volume by 99% (15,000+ → 1 digest/day) using distributed Redis locks and state machines for async reliability.</li>
+                                <li>Shipped AI summarization feature using context-injection layer to prevent LLM hallucinations, reducing Rule Engine support tickets by 90% and enabling customer self-serve analysis.</li>
+                                <li>Built rule recommendation system (trending/most-used tags) with zero database overhead — all computation in daily cron job, frontend reads precomputed S3 JSON, zero impact on scale.</li>
+                                <li>Architected many-to-many bulk scheduling system enabling clients to deploy strategies across hundreds of accounts in one click; discovered and fixed critical hidden scalability bug via stress testing.</li>
+                                <li>Launched telemetry tool logging user actions across three independent surfaces (.NET, PHP, React) with automatic 6-month retention, powering data-driven product decisions and seasonal trend analysis.</li>
                             </ul>
                         </div>
                     </div>
@@ -854,26 +858,16 @@
                                 class="text-sm text-gray-400 ml-2">| Hyderabad, India</span></p>
                         <div class="border-b-2 border-blue-500/30 my-4"></div>
                         <ul class="list-disc list-outside pl-5 space-y-3 text-gray-300">
-                            <li>Architected a distributed analytics backend using DuckDB Parquet, cutting query time on
-                                10M+ rows from 10 minutes to under 1 seconds.</li>
-                            <li>Engineered a custom query builder to parse HotChocolate GraphQL requests into native
-                                DuckDB SQL, powering real-time analytics service.</li>
-                            <li>Created a data ingestion module to unify and store data from Google, Bing, Amazon APIs
-                                in Parquet, supporting analytics on 10M+ rows.</li>
-                            <li>Implemented an Al summarization engine to distill millions of rule execution data
-                                points, reducing reliance on customer success teams by 80%.</li>
-                            <li>Launched a telemetry tool to log user actions, leveraging a daily cron to process
-                                6-month trends from MySQL and persist computed data to AWS S3.</li>
-                            <li>Developed a notification orchestrator to consolidate millions of daily automation
-                                emails, cutting client email volume by over 99%.</li>
-                            <li>Supervised Google Ads API migration (v15 to v17), coordinating testing and code changes
-                                across teams to ensure a successful launch.</li>
-                            <li>Shipped a bulk automation scheduler, eliminating manual, single-account scheduling for
-                                clients controlling 1000s of ad accounts.</li>
-                            <li>Evolved a runner-up hackathon prototype into a production multi-account dashboard, using
-                                Redis distributed locks for cache invalidation.</li>
-                            <li>Mentored junior engineers, led code reviews, and conducted KT sessions to explain the
-                                new GraphQL infrastructure and drive best practices.</li>
+                            <li>Architected distributed GraphQL query layer reducing dashboard load times from 10–30 min → <1 sec (60–180× improvement); pivoted MongoDB → DuckDB mid-project when performance hit a wall.</li>
+                            <li>Engineered custom HotChocolate provider parsing GraphQL requests into native DuckDB SQL, eliminating 99% redundant API calls across fragmented team-specific fetching scripts.</li>
+                            <li>Evolved multi-account dashboard prototype into production system using Redis distributed locks for cache invalidation, decoupling frontend from platform-specific REST models via GraphQL schema.</li>
+                            <li>Implemented data ingestion pipeline unifying Google, Bing, Amazon API data into Parquet format on S3, supporting analytics on 10M+ rows with currency normalization across multi-currency portfolios.</li>
+                            <li>Led cross-platform metric unification effort establishing single source of truth for ROAS, CPA, impression volume across all ad platforms; mentored team, conducted KT sessions on GraphQL infrastructure.</li>
+                            <li>Designed centralized email consolidation engine reducing enterprise email volume by 99% (15,000+ → 1 digest/day) using distributed Redis locks and state machines for async reliability.</li>
+                            <li>Shipped AI summarization feature using context-injection layer to prevent LLM hallucinations, reducing Rule Engine support tickets by 90% and enabling customer self-serve analysis.</li>
+                            <li>Built rule recommendation system (trending/most-used tags) with zero database overhead — all computation in daily cron job, frontend reads precomputed S3 JSON, zero impact on scale.</li>
+                            <li>Architected many-to-many bulk scheduling system enabling clients to deploy strategies across hundreds of accounts in one click; discovered and fixed critical hidden scalability bug via stress testing.</li>
+                            <li>Launched telemetry tool logging user actions across three independent surfaces (.NET, PHP, React) with automatic 6-month retention, powering data-driven product decisions and seasonal trend analysis.</li>
                         </ul>
                         <div class="mt-6 flex flex-wrap gap-2">
                             <span

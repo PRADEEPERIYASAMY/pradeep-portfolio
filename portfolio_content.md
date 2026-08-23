@@ -49,9 +49,16 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 
 ### Software Development Engineer
 **Optmyzr** | *Jun 2023 - Aug 2025* | Hyderabad, India
-- Architected a distributed analytics backend using DuckDB Parquet, cutting query time on 10M+ rows from 10 minutes to under 1 second.
-- Engineered a custom GraphQL query builder to parse HotChocolate requests into native DuckDB SQL.
-- Implemented an AI summarization engine to distill millions of rule execution data points, reducing reliance on customer success teams by 80%.
+- Architected distributed GraphQL query layer reducing dashboard load times from 10–30 min → <1 sec (60–180× improvement); pivoted MongoDB → DuckDB mid-project when performance hit a wall.
+- Engineered custom HotChocolate provider parsing GraphQL requests into native DuckDB SQL, eliminating 99% redundant API calls across fragmented team-specific fetching scripts.
+- Evolved multi-account dashboard prototype into production system using Redis distributed locks for cache invalidation, decoupling frontend from platform-specific REST models via GraphQL schema.
+- Implemented data ingestion pipeline unifying Google, Bing, Amazon API data into Parquet format on S3, supporting analytics on 10M+ rows with currency normalization across multi-currency portfolios.
+- Led cross-platform metric unification effort establishing single source of truth for ROAS, CPA, impression volume across all ad platforms; mentored team, conducted KT sessions on GraphQL infrastructure.
+- Designed centralized email consolidation engine reducing enterprise email volume by 99% (15,000+ → 1 digest/day) using distributed Redis locks and state machines for async reliability.
+- Shipped AI summarization feature using context-injection layer to prevent LLM hallucinations, reducing Rule Engine support tickets by 90% and enabling customer self-serve analysis.
+- Built rule recommendation system (trending/most-used tags) with zero database overhead — all computation in daily cron job, frontend reads precomputed S3 JSON, zero impact on scale.
+- Architected many-to-many bulk scheduling system enabling clients to deploy strategies across hundreds of accounts in one click; discovered and fixed critical hidden scalability bug via stress testing.
+- Launched telemetry tool logging user actions across three independent surfaces (.NET, PHP, React) with automatic 6-month retention, powering data-driven product decisions and seasonal trend analysis.
 
 ### Full Stack Web Developer Intern
 **Indian Institute of Technology, Delhi** | *Dec 2022 - Jun 2023*
