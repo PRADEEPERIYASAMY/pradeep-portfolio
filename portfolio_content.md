@@ -113,7 +113,7 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 - Android (MVVM, Room, Hilt)
 - Django / FastAPI / Flask
 - Spring Boot
-- Ruby on Rails
+- Ruby on Rails / HotChocolate
 - Tailwind CSS
 
 **Databases & Tools:** 
@@ -122,7 +122,8 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 - Git / GitHub Actions (CI/CD)
 - Docker
 - AWS (S3, ECR) / Firebase
-- Redis
+- Redis / ChromaDB
+- LangChain / LangGraph
 
 ---
 
