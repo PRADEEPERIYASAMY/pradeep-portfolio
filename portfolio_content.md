@@ -18,7 +18,7 @@ _[Typing Effect: Software Engineer / AI/ML Enthusiast / System Architect / Full 
 **Contact Info:**
 - [papradeep11cs@gmail.com](mailto:papradeep11cs@gmail.com)
 - [LinkedIn](https://linkedin.com/in/pradeep-periyasamy-b385181a0)
-- +1 (979) 422-9834
+- [GitHub](https://github.com/PRADEEPERIYASAMY)
 
 ---
 
@@ -150,9 +150,6 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 I'm actively exploring opportunities across Software Engineering, AI/ML, Data Engineering, Distributed Systems, and Cloud Infrastructure.
 I respond to relevant opportunities within 24 hours.
 
-**Links:**
-- [Email](mailto:papradeep11cs@gmail.com)
-- [LinkedIn](https://linkedin.com/in/pradeep-periyasamy-b385181a0)
-- [GitHub](https://github.com/PRADEEPERIYASAMY)
+[Email](mailto:papradeep11cs@gmail.com) [LinkedIn](https://linkedin.com/in/pradeep-periyasamy-b385181a0) [GitHub](https://github.com/PRADEEPERIYASAMY)
 
 *© 2026 Pradeep Periyasamy. All rights reserved.*
