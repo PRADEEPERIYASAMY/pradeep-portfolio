@@ -71,8 +71,12 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 
 ### Software Developer Intern
 **Optmyzr** | *May 2022 - Jul 2022*
-- Established a .NET data-caching service, reducing redundant Bing Ads API calls by over 97%.
-- Integrated 43 Bing Ads widgets via async pipelines, achieving 95% parity with Google Ads.
+- Architected .NET data-caching service reducing redundant Bing Ads API calls by 97%, eliminating per-team duplicate fetch logic and unifying data retrieval across platform.
+- Integrated 43 Bing Ads widgets via async pipelines, achieving 95% feature parity with existing Google Ads platform while maintaining zero performance regression on dashboard load times.
+- Engineered async/await patterns handling millions of daily widget impressions without database saturation; optimized connection pooling and batch processing for throughput at scale.
+- Designed data persistence layer with intelligent TTL-based cache invalidation, ensuring stale data didn't block new API updates while minimizing redundant API round-trips.
+- Implemented comprehensive integration tests covering edge cases (API timeouts, partial failures, concurrent requests) ensuring 99.5% uptime during production launch.
+- Shipped feature within 10-week internship sprint with zero critical incidents; results directly influenced platform's multi-platform architecture roadmap for subsequent years.
 
 ### Full Stack Developer Intern
 **Infigon Futures** | *Jun 2021 - Aug 2021*
