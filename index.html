@@ -250,8 +250,30 @@
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
         }
-        footer {
-            padding-bottom: env(safe-area-inset-bottom);
+        /* ─── Background video matching blog page measurements ─── */
+        .bg-video-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .bg-video-wrap video {
+            position: absolute;
+            left: 0;
+            top: -250px;
+            width: 100%;
+            height: 650px;
+            object-fit: cover;
+            opacity: 0.6;
+            transform: rotate(180deg);
+        }
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(3, 2, 12, 0.65);
+            pointer-events: none;
         }
     </style>
 
@@ -259,14 +281,11 @@
 
 <body class="antialiased bg-[#03020c] text-white">
 
-    <div class="fixed inset-0 z-[-2] w-full h-full overflow-hidden pointer-events-none">
-        <video src="blackhole.webm"
-            class="absolute left-0 top-[-250px] w-full h-[650px] object-cover opacity-60 rotate-180"
-            autoplay loop muted playsinline
-            onerror="this.parentElement.style.backgroundColor='#03020c'; this.style.display='none'; console.error('Video failed to load.')">
-        </video>
-        <div class="absolute inset-0 z-[-1] bg-[#03020c]/65 pointer-events-none"></div>
+    <div class="bg-video-wrap">
+        <video src="blackhole.webm" autoplay loop muted playsinline
+            onerror="this.parentElement.style.backgroundColor='#03020c'; this.style.display='none';"></video>
     </div>
+    <div class="bg-overlay"></div>
 
     <div class="fixed inset-0 z-[-1] w-full h-full opacity-70">
         <canvas id="starfield-canvas"></canvas>
