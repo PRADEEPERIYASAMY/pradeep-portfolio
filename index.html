@@ -2300,14 +2300,15 @@
                 const tabId = newButton.dataset.tab;
 
                 tabButtons.forEach(btn => {
-                    btn.classList.remove('border-blue-500/30', 'bg-blue-500/10', 'shadow-md');
-                    btn.classList.add('border-gray-700', 'hover:bg-blue-500/5');
+                    btn.classList.remove('border-blue-500/30', 'bg-blue-500/10', 'shadow-md', 'shadow-[0_0_15px_rgba(59,130,246,0.15)]');
+                    btn.classList.add('border-gray-700/50', 'bg-gray-800/40', 'hover:bg-blue-500/10', 'hover:border-blue-500/30');
+                    btn.classList.remove('border-gray-700', 'hover:bg-blue-500/5');
                     btn.querySelector('h3').classList.remove('text-blue-400');
                     btn.querySelector('h3').classList.add('text-white');
                 });
 
-                newButton.classList.add('border-blue-500/30', 'bg-blue-500/10', 'shadow-md');
-                newButton.classList.remove('border-gray-700', 'hover:bg-blue-500/5');
+                newButton.classList.add('border-blue-500/30', 'bg-blue-500/10', 'shadow-[0_0_15px_rgba(59,130,246,0.15)]');
+                newButton.classList.remove('border-gray-700/50', 'bg-gray-800/40', 'hover:bg-blue-500/10', 'hover:border-blue-500/30', 'border-gray-700', 'hover:bg-blue-500/5');
                 newButton.querySelector('h3').classList.add('text-blue-400');
                 newButton.querySelector('h3').classList.remove('text-white');
 
