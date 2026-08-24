@@ -851,15 +851,15 @@
                 <!-- [CHANGED] Tab list changed from col-span-4 to col-span-3 -->
                 <div class="col-span-3 space-y-2 pr-2">
                     <button
-                        class="tab-button w-full rounded-lg border p-4 text-left transition-all border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.15)]"
+                        class="tab-button w-full rounded-lg border p-4 text-left transition-all border-gray-700/50 bg-gray-800/40 backdrop-blur-md hover:bg-blue-500/10 hover:border-blue-500/30"
                         data-tab="tamu">
-                        <h3 class="font-medium text-blue-400">Graduate Student Worker</h3>
+                        <h3 class="font-medium text-white">Graduate Student Worker</h3>
                         <p class="text-sm text-white/60">Texas A&M University</p>
                     </button>
                     <button
-                        class="tab-button w-full rounded-lg border p-4 text-left transition-all border-gray-700/50 bg-gray-800/40 backdrop-blur-md hover:bg-blue-500/10 hover:border-blue-500/30"
+                        class="tab-button w-full rounded-lg border p-4 text-left transition-all border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.15)]"
                         data-tab="optmyzr-sde">
-                        <h3 class="font-medium text-white">Software Development Engineer</h3>
+                        <h3 class="font-medium text-blue-400">Software Development Engineer</h3>
                         <p class="text-sm text-white/60">Optmyzr</p>
                     </button>
                     <button
@@ -897,7 +897,7 @@
                 <!-- [CHANGED] Content area changed from col-span-8 to col-span-9 -->
                 <div class="col-span-9">
 
-                    <div class="tab-content bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up"
+                    <div class="tab-content hidden bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up"
                         data-tab="tamu">
                         <div class="flex items-start justify-between mb-2">
                             <h3 class="text-2xl font-bold text-white mb-1">Graduate Student Worker</h3>
@@ -934,7 +934,7 @@
                         </div>
                     </div>
 
-                    <div class="tab-content hidden bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up"
+                    <div class="tab-content bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up"
                         data-tab="optmyzr-sde">
                         <div class="flex items-start justify-between mb-2">
                             <h3 class="text-2xl font-bold text-white mb-1">Software Development Engineer</h3>
@@ -2326,7 +2326,7 @@
                 // [REMOVED] All scroll-to-position logic
             }
 
-            switchTab(0);
+            switchTab(1);
 
             tabButtons.forEach((button, index) => {
                 button.addEventListener('click', () => {
