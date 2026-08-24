@@ -19,51 +19,54 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
 
+        /* ── Reset & base ── */
+        *, *::before, *::after { box-sizing: border-box; }
+
         body {
-            font-family: 'IBM+Plex+Mono', monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'IBM Plex Mono', monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: #D1D5DB;
             margin: 0;
             padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         html {
             scroll-behavior: smooth;
+            /* Prevent iOS font inflation */
+            -webkit-text-size-adjust: 100%;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1F2937; }
+        ::-webkit-scrollbar-thumb { background: #3B82F6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+
+        /* ── Apple HIG: minimum 44×44px touch targets ── */
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #1F2937;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #3B82F6;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2563EB;
-        }
-
+        /* ── Section divider ── */
         .section-divider {
             height: 2px;
             background-image: linear-gradient(to right, rgba(59, 130, 246, 0), rgba(59, 130, 246, 0.5), rgba(59, 130, 246, 0));
         }
 
+        /* ── Hero content ── */
         .hero-content {
             position: relative;
             z-index: 2;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
             will-change: transform, opacity;
             transform-origin: top center;
         }
 
-        .hero-image-container {
-            perspective: 1000px;
-        }
+        .hero-image-container { perspective: 1000px; }
 
         .hero-image-tilt {
             transition: transform 0.1s ease-out;
@@ -88,12 +91,9 @@
 
         .hero-image-glow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             border-radius: 9999px;
-            /* full */
             background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(59, 130, 246, 0.5) 0%, rgba(59, 130, 246, 0) 60%);
             filter: blur(40px);
             opacity: 0;
@@ -102,6 +102,7 @@
             will-change: opacity, background;
         }
 
+        /* ── Profile outline SVG animation ── */
         .profile-outline-path {
             stroke: #3B82F6;
             stroke-dasharray: 3000;
@@ -110,43 +111,24 @@
         }
 
         @keyframes draw-outline {
-            0% {
-                stroke-dashoffset: 3000;
-                stroke-opacity: 1;
-            }
-
-            50% {
-                stroke-dashoffset: 0;
-                stroke-opacity: 1;
-            }
-
-            100% {
-                stroke-dashoffset: 0;
-                stroke-opacity: 0;
-            }
+            0%   { stroke-dashoffset: 3000; stroke-opacity: 1; }
+            50%  { stroke-dashoffset: 0;    stroke-opacity: 1; }
+            100% { stroke-dashoffset: 0;    stroke-opacity: 0; }
         }
 
         @keyframes fade-in-image {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 0.8;
-            }
+            from { opacity: 0; }
+            to   { opacity: 0.8; }
         }
 
+        /* ── Scroll-reveal animations ── */
         .fade-in-up {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             will-change: opacity, transform;
         }
-
-        .fade-in-up.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-in-up.is-visible { opacity: 1; transform: translateY(0); }
 
         .fade-in-left {
             opacity: 0;
@@ -154,11 +136,7 @@
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             will-change: opacity, transform;
         }
-
-        .fade-in-left.is-visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
+        .fade-in-left.is-visible { opacity: 1; transform: translateX(0); }
 
         .fade-in-right {
             opacity: 0;
@@ -166,138 +144,117 @@
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             will-change: opacity, transform;
         }
+        .fade-in-right.is-visible { opacity: 1; transform: translateX(0); }
 
-        .fade-in-right.is-visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
+        /* ── Tech icon tooltip ── */
         .tech-icon-container .group-hover\:inline-block {
             position: absolute;
-            bottom: 120%;
-            left: 50%;
+            bottom: 120%; left: 50%;
             transform: translateX(-50%);
             white-space: nowrap;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0; visibility: hidden;
             pointer-events: none;
             transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
         }
-
         .tech-icon-container:hover .group-hover\:inline-block,
         .tech-icon-container:focus-within .group-hover\:inline-block {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1; visibility: visible;
         }
 
-        .text-glow {
-            text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
-        }
+        /* ── Glow text ── */
+        .text-glow { text-shadow: 0 0 8px rgba(59, 130, 246, 0.5); }
 
-        .glitch {
-            position: relative;
-            cursor: pointer;
-        }
-
-        .glitch::before,
-        .glitch::after {
+        /* ── Glitch effect ── */
+        .glitch { position: relative; cursor: pointer; }
+        .glitch::before, .glitch::after {
             content: attr(data-text);
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             opacity: 0.8;
             mix-blend-mode: screen;
             transition: transform 0.1s ease-out;
         }
+        .glitch::before { color: #3B82F6; transform: translate(0, 0); }
+        .glitch::after  { color: #E11D48; transform: translate(0, 0); }
+        .glitch:hover::before { transform: translate(-3px, -2px); }
+        .glitch:hover::after  { transform: translate(3px, 2px); }
 
-        .glitch::before {
-            color: #3B82F6;
-            transform: translate(0, 0);
-        }
-
-        .glitch::after {
-            color: #E11D48;
-            transform: translate(0, 0);
-        }
-
-        .glitch:hover::before {
-            transform: translate(-3px, -2px);
-        }
-
-        .glitch:hover::after {
-            transform: translate(3px, 2px);
-        }
-
+        /* ── Buttons ── */
         .button {
-            @apply inline-flex items-center justify-center px-6 py-3 rounded-md font-semibold tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900;
+            @apply inline-flex items-center justify-center px-5 py-3 rounded-md font-semibold tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900;
+            min-height: 44px; /* Apple HIG tap target */
         }
+        .button-solid { @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500; }
+        .button-ghost  { @apply bg-transparent border-2 border-blue-500 text-blue-400 hover:bg-blue-500/10 focus:ring-blue-500; }
+        .button-ghost i { @apply mr-2; }
 
-        .button-solid {
-            @apply bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500;
-        }
+        /* ── Typing subtitle ── */
+        #typing-subtitle { min-height: 2.5rem; }
 
-        .button-ghost {
-            @apply bg-transparent border-2 border-blue-500 text-blue-400 hover:bg-blue-500/10 focus:ring-blue-500;
-        }
-
-        .button-ghost i {
-            @apply mr-2;
-        }
-
-        #typing-subtitle {
-            min-height: 2.5rem;
-        }
-
+        /* ── Blinking cursor ── */
         .blinking-cursor {
             color: #3B82F6;
             animation: blink 1s step-end infinite;
         }
-
         @keyframes blink {
-
-            from,
-            to {
-                color: transparent
-            }
-
-            50% {
-                color: #3B82F6
-            }
+            from, to { color: transparent }
+            50%       { color: #3B82F6 }
         }
 
+        /* ── Wave emoji ── */
         @keyframes wave {
-
-            0%,
-            60%,
-            100% {
-                transform: rotate(0deg);
-            }
-
-            10%,
-            30% {
-                transform: rotate(14deg);
-            }
-
-            20%,
-            40% {
-                transform: rotate(-8deg);
-            }
+            0%, 60%, 100% { transform: rotate(0deg); }
+            10%, 30%       { transform: rotate(14deg); }
+            20%, 40%       { transform: rotate(-8deg); }
         }
-
         .animate-wave {
             display: inline-block;
             animation: wave 2.5s infinite;
             transform-origin: 70% 70%;
         }
 
+        /* ── Active nav link ── */
         .nav-link-active {
             color: #3B82F6 !important;
             font-weight: 600;
             text-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
         }
+
+        /* ── Experience tab sidebar: clamp long titles on narrow desktops ── */
+        .tab-button h3 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        @media (min-width: 1024px) {
+            .tab-button h3 {
+                -webkit-line-clamp: unset;
+                overflow: visible;
+                text-overflow: unset;
+                display: block;
+            }
+        }
+
+        /* ── Fluid section heading size ── */
+        .section-heading {
+            font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* ── Safe-area padding for notched devices ── */
+        body {
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        footer {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
     </style>
+
 </head>
 
 <body class="antialiased bg-[#03020c] text-white">
@@ -316,18 +273,19 @@
     </div>
 
     <nav class="bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 border-b-2 border-blue-500">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex justify-between items-center">
-                <a href="#home" class="text-xl font-bold text-white tracking-tight">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center min-h-[44px]">
+                <a href="#home" class="text-sm sm:text-base md:text-xl font-bold text-white tracking-tight truncate max-w-[160px] sm:max-w-none">
                     PRADEEP PERIYASAMY
                 </a>
 
+                <!-- Mobile hamburger — Apple HIG 44×44 tap target -->
                 <button id="mobile-menu-button"
-                    class="md:hidden p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700">
+                    class="md:hidden touch-target rounded-md text-gray-400 hover:text-white hover:bg-gray-700 flex-shrink-0">
                     <i class="fas fa-bars fa-lg"></i>
                 </button>
 
-                <ul class="hidden md:flex space-x-6">
+                <ul class="hidden md:flex md:space-x-4 lg:space-x-6">
                     <li><a href="#about"
                             class="font-medium text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
                     <li><a href="#experience"
@@ -345,37 +303,37 @@
         </div>
 
         <div id="mobile-menu"
-            class="hidden md:hidden px-4 pt-2 pb-4 space-y-2 bg-gray-900/80 backdrop-blur-lg border-t border-gray-700">
+            class="hidden md:hidden px-4 pt-2 pb-4 space-y-1 bg-gray-900/80 backdrop-blur-lg border-t border-gray-700">
             <a href="#about"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">About</a>
+                class="flex items-center min-h-[44px] px-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">About</a>
             <a href="#experience"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Experience</a>
+                class="flex items-center min-h-[44px] px-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Experience</a>
             <a href="#projects"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Projects</a>
+                class="flex items-center min-h-[44px] px-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Projects</a>
             <a href="#skills"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Skills</a>
+                class="flex items-center min-h-[44px] px-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Skills</a>
             <a href="#education"
-                class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Education</a>
+                class="flex items-center min-h-[44px] px-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700">Education</a>
             <a href="#contact"
-                class="block px-3 py-2 rounded-md text-base font-medium text-blue-400 hover:text-white hover:bg-gray-700">Contact</a>
+                class="flex items-center min-h-[44px] px-3 rounded-md text-base font-medium text-blue-400 hover:text-white hover:bg-gray-700">Contact</a>
         </div>
     </nav>
 
-    <main class="container mx-auto px-4 relative z-10">
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 2xl:max-w-screen-xl relative z-10">
 
-        <header id="home" class="relative overflow-hidden py-16 min-h-screen flex flex-col justify-center">
+        <header id="home" class="relative overflow-hidden py-12 sm:py-16 min-h-[600px] sm:min-h-screen flex flex-col justify-center">
 
-            <div id="hero-content" class="hero-content grid grid-cols-1 lg:grid-cols-2 gap-16 items-center w-full">
+            <div id="hero-content" class="hero-content grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
                 <div class="text-center lg:text-left">
-                    <div class="text-2xl md:text-4xl font-bold text-gray-400 mb-2 text-glow">Hi! <span
+                    <div class="text-xl sm:text-2xl md:text-4xl font-bold text-gray-400 mb-2 text-glow">Hi! <span
                             class="inline-block animate-wave">👋</span> I'm</div>
 
-                    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4 text-glow glitch"
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl font-extrabold text-white mb-4 text-glow glitch"
                         data-text="Pradeep Periyasamy">
                         Pradeep Periyasamy
                     </h1>
 
-                    <p class="text-xl md:text-2xl font-medium text-blue-400 mb-8 text-glow">
+                    <p class="text-base sm:text-xl md:text-2xl font-medium text-blue-400 mb-6 sm:mb-8 text-glow">
                         <span id="typing-subtitle"></span><span class="blinking-cursor">_</span>
                     </p>
 
@@ -445,8 +403,8 @@
                 </div>
             </div>
 
-            <section class="relative z-10 mt-24">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <section class="relative z-10 mt-12 sm:mt-16 lg:mt-24">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
 
                     <div
                         class="relative z-10 bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 fade-in-up overflow-hidden">
@@ -528,7 +486,7 @@
 
         </header>
 
-        <section id="about" class="py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4">
+        <section id="about" class="py-12 sm:py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4 sm:px-6">
             <h2
                 class="text-3xl md:text-4xl font-bold text-white text-center mb-12 fade-in-up border-b-2 border-blue-500 pb-4 inline-block mx-auto w-auto text-glow">
                 About Me
@@ -537,7 +495,7 @@
             <div class="max-w-5xl mx-auto">
 
                 <div
-                    class="bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-8 md:p-10 border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 fade-in-up">
+                    class="bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-5 sm:p-8 md:p-10 border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 fade-in-up">
                     <p class="text-lg text-gray-300 leading-relaxed">
                         I'm a Master's student in Computer Science at Texas A&M University, driven by a passion for
                         architecting resilient and high-performance systems. For me, it's not just about writing code
@@ -551,10 +509,10 @@
                     My Core Philosophy
                 </h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-6 gap-6 mb-16">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 mb-12 sm:mb-16">
 
                     <div
-                        class="relative md:col-span-2 bg-gray-800/40 backdrop-blur-lg p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-left overflow-hidden">
+                        class="relative sm:col-span-1 lg:col-span-2 bg-gray-800/40 backdrop-blur-lg p-5 sm:p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-left overflow-hidden">
                         <span class="absolute left-4 top-2 text-8xl font-bold text-blue-200/10 z-0 select-none">1</span>
                         <div class="relative z-10">
                             <h4 class="text-lg font-bold text-blue-400 mb-2">Architecture</h4>
@@ -563,7 +521,7 @@
                         </div>
                     </div>
 
-                    <div class="relative md:col-span-2 bg-gray-800/40 backdrop-blur-lg p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-right overflow-hidden"
+                    <div class="relative sm:col-span-1 lg:col-span-2 bg-gray-800/40 backdrop-blur-lg p-5 sm:p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-right overflow-hidden"
                         style="transition-delay: 100ms;">
                         <span class="absolute left-4 top-2 text-8xl font-bold text-blue-200/10 z-0 select-none">2</span>
                         <div class="relative z-10">
@@ -573,7 +531,7 @@
                         </div>
                     </div>
 
-                    <div class="relative md:col-span-2 bg-gray-800/40 backdrop-blur-lg p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-left overflow-hidden"
+                    <div class="relative sm:col-span-2 lg:col-span-2 bg-gray-800/40 backdrop-blur-lg p-5 sm:p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-left overflow-hidden"
                         style="transition-delay: 200ms;">
                         <span class="absolute left-4 top-2 text-8xl font-bold text-blue-200/10 z-0 select-none">3</span>
                         <div class="relative z-10">
@@ -583,7 +541,7 @@
                         </div>
                     </div>
 
-                    <div class="relative md:col-span-3 bg-gray-800/40 backdrop-blur-lg p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-left overflow-hidden"
+                    <div class="relative sm:col-span-1 lg:col-span-3 bg-gray-800/40 backdrop-blur-lg p-5 sm:p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-left overflow-hidden"
                         style="transition-delay: 300ms;">
                         <span class="absolute left-4 top-2 text-8xl font-bold text-blue-200/10 z-0 select-none">4</span>
                         <div class="relative z-10">
@@ -593,7 +551,7 @@
                         </div>
                     </div>
 
-                    <div class="relative md:col-span-3 bg-gray-800/40 backdrop-blur-lg p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-right overflow-hidden"
+                    <div class="relative sm:col-span-1 lg:col-span-3 bg-gray-800/40 backdrop-blur-lg p-5 sm:p-6 rounded-xl border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-1 fade-in-right overflow-hidden"
                         style="transition-delay: 400ms;">
                         <span class="absolute left-4 top-2 text-8xl font-bold text-blue-200/10 z-0 select-none">5</span>
                         <div class="relative z-10">
@@ -610,7 +568,7 @@
                 </h3>
 
                 <div
-                    class="bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-8 md:p-10 border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 fade-in-up">
+                    class="bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-5 sm:p-8 md:p-10 border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 fade-in-up">
                     <p class="text-lg text-gray-300 mb-6 leading-relaxed text-center max-w-3xl mx-auto">
                         In my free time, I'm always exploring. I love diving into new UI/UX designs, reading tech blogs,
                         and combing through public repos for "crazy stuff" to implement in my own toy projects. I also
@@ -640,7 +598,7 @@
 
         <div class="section-divider my-16"></div>
 
-        <section id="experience" class="py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4">
+        <section id="experience" class="py-12 sm:py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4 sm:px-6">
             <h2 id="experience-heading"
                 class="text-3xl md:text-4xl font-bold text-white text-center mb-16 fade-in-up border-b-2 border-blue-500 pb-4 inline-block mx-auto w-auto text-glow">
                 Work Experience
@@ -664,7 +622,7 @@
                                 <span class="text-lg font-semibold text-blue-400">Texas A&M University</span>
                                 <span class="text-sm text-gray-400">Feb 2026 - Present</span>
                             </div>
-                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                            <ul class="list-disc list-outside pl-4 sm:pl-5 space-y-2 text-gray-300 text-sm mt-4">
                                 <li>Architected Flask → FastAPI migration for Texas Congestion Analysis Tool (TCAT), modernizing statewide transportation analytics platform serving TxDOT planners and engineers; designed incremental rollout with shared business logic layer enabling 3–5× concurrent request handling without downtime.</li>
                                 <li>Engineered legacy → React frontend modernization (component-based architecture, Redux state management, React Query for server-state caching); established component library (map visualization, tables, report forms) enabling parallel frontend/backend development.</li>
                                 <li>Built National Bridge Structural Failure Engine analyzing 624K+ bridges across 28 years of historical NBI data using DuckDB + Parquet (columnar storage, projection pushdown) enabling multi-gigabyte pipeline on 16GB RAM without expensive infrastructure scaling.</li>
@@ -692,7 +650,7 @@
                                 <span class="text-lg font-semibold text-blue-400">Optmyzr</span>
                                 <span class="text-sm text-gray-400">Jun 2023 - Aug 2025</span>
                             </div>
-                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                            <ul class="list-disc list-outside pl-4 sm:pl-5 space-y-2 text-gray-300 text-sm mt-4">
                                 <li>Architected distributed GraphQL query layer reducing dashboard load times from 10–30 min → <1 sec (60–180× improvement); pivoted MongoDB → DuckDB mid-project when performance hit a wall.</li>
                                 <li>Engineered custom HotChocolate provider parsing GraphQL requests into native DuckDB SQL, eliminating 99% redundant API calls across fragmented team-specific fetching scripts.</li>
                                 <li>Evolved multi-account dashboard prototype into production system using Redis distributed locks for cache invalidation, decoupling frontend from platform-specific REST models via GraphQL schema.</li>
@@ -723,7 +681,7 @@
                                     Delhi</span>
                                 <span class="text-sm text-gray-400">Dec 2022 - Jun 2023</span>
                             </div>
-                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                            <ul class="list-disc list-outside pl-4 sm:pl-5 space-y-2 text-gray-300 text-sm mt-4">
                                 <li>Architected and shipped B-Reporter web platform (React.js, Next.js, MySQL) enabling university-wide collaborative reporting with commenting, tag-based post suggestions, and responsive UI — deployed across IIT Delhi.</li>
                                 <li>Designed tag-based recommendation system leveraging user engagement patterns to surface relevant posts without explicit search, improving content discoverability and user retention.</li>
                                 <li>Implemented real-time commenting system with nested replies, user mentions, and activity feeds using React state management and MySQL transactions for consistency.</li>
@@ -749,7 +707,7 @@
                                 <span class="text-lg font-semibold text-blue-400">Optmyzr</span>
                                 <span class="text-sm text-gray-400">May 2022 - Jul 2022</span>
                             </div>
-                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                            <ul class="list-disc list-outside pl-4 sm:pl-5 space-y-2 text-gray-300 text-sm mt-4">
                                 <li>Architected .NET data-caching service reducing redundant Bing Ads API calls by 97%, eliminating per-team duplicate fetch logic and unifying data retrieval across platform.</li>
                                 <li>Integrated 43 Bing Ads widgets via async pipelines, achieving 95% feature parity with existing Google Ads platform while maintaining zero performance regression on dashboard load times.</li>
                                 <li>Engineered async/await patterns handling millions of daily widget impressions without database saturation; optimized connection pooling and batch processing for throughput at scale.</li>
@@ -775,7 +733,7 @@
                                 <span class="text-lg font-semibold text-blue-400">Infigon Futures</span>
                                 <span class="text-sm text-gray-400">Jun 2021 - Aug 2021</span>
                             </div>
-                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                            <ul class="list-disc list-outside pl-4 sm:pl-5 space-y-2 text-gray-300 text-sm mt-4">
                                 <li>Built full-stack website from scratch using React, TypeScript, Redux, Firebase, and Docker; deployed containerized application achieving <1 sec load time and mobile-responsive design across all devices.</li>
                                 <li>Designed Redux state management architecture handling complex user workflows, enabling predictable state transitions and maintainable component composition across 15+ pages.</li>
                                 <li>Integrated Firebase authentication, real-time database, and hosting, implementing OAuth login flows and Firestore data synchronization supporting concurrent user sessions.</li>
@@ -802,7 +760,7 @@
                                     Delhi</span>
                                 <span class="text-sm text-gray-400">Jun 2021 - Jul 2021</span>
                             </div>
-                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                            <ul class="list-disc list-outside pl-4 sm:pl-5 space-y-2 text-gray-300 text-sm mt-4">
                                 <li>Architected and shipped B-Reporter Android application from scratch using Kotlin, MVVM architecture, and Node.js backend; achieved 95%+ test coverage across business logic and successfully launched on Play Store.</li>
                                 <li>Implemented MVVM pattern with Android Architecture Components (ViewModel, LiveData, Room database) ensuring separation of concerns, testability, and lifecycle-aware state management.</li>
                                 <li>Built real-time communication layer using REST APIs, handling network errors gracefully with retry logic and offline-first caching via Room database for seamless user experience.</li>
@@ -829,7 +787,7 @@
                                     Club)</span>
                                 <span class="text-sm text-gray-400">Aug 2020 - Jul 2021</span>
                             </div>
-                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                            <ul class="list-disc list-outside pl-4 sm:pl-5 space-y-2 text-gray-300 text-sm mt-4">
                                 <li>Architected Kaval Arann — public-police communication & incident reporting platform deployed in production across Tiruchirappalli City Police; dual-app system (citizen-facing incident reporting app + police-facing incident management dashboard) in active use.</li>
                                 <li>Engineered single-codebase, multi-flavor Android architecture generating two distinct APKs from shared codebase (Retrofit API client, Room data layer, MVVM business logic); achieved 40% reduction in duplicate development effort and maintenance burden.</li>
                                 <li>Designed navigation architecture using Android Jetpack Navigation Component (15+ screens, type-safe argument passing via Safe Args, shared ViewModels) enabling seamless transitions with near-zero navigation-related crashes.</li>
@@ -846,10 +804,10 @@
             </div>
 
             <!-- This is the desktop experience tabs -->
-            <div class="hidden md:grid md:grid-cols-12 gap-8 max-w-6xl mx-auto fade-in-up" id="experience-tabs">
+            <div class="hidden md:grid md:grid-cols-12 gap-4 lg:gap-8 max-w-6xl mx-auto fade-in-up" id="experience-tabs">
 
-                <!-- [CHANGED] Tab list changed from col-span-4 to col-span-3 -->
-                <div class="col-span-3 space-y-2 pr-2">
+                <!-- [CHANGED] Tab list: col-span-4 on md, col-span-3 on lg -->
+                <div class="col-span-4 lg:col-span-3 space-y-2 pr-0 lg:pr-2">
                     <button
                         class="tab-button w-full rounded-lg border p-4 text-left transition-all border-gray-700/50 bg-gray-800/40 backdrop-blur-md hover:bg-blue-500/10 hover:border-blue-500/30"
                         data-tab="tamu">
@@ -894,8 +852,8 @@
                     </button>
                 </div>
 
-                <!-- [CHANGED] Content area changed from col-span-8 to col-span-9 -->
-                <div class="col-span-9">
+                <!-- [CHANGED] Content area: col-span-8 on md, col-span-9 on lg -->
+                <div class="col-span-8 lg:col-span-9">
 
                     <div class="tab-content hidden bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up"
                         data-tab="tamu">
@@ -1188,13 +1146,13 @@
             <div class="section-divider my-16"></div>
         </div>
 
-        <section id="projects" class="py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl">
+        <section id="projects" class="py-12 sm:py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4 sm:px-6">
             <div class="container mx-auto px-4">
                 <h2
                     class="text-3xl md:text-4xl font-bold text-white text-center mb-16 fade-in-up border-b-2 border-blue-500 pb-4 inline-block mx-auto w-auto text-glow">
                     Featured Projects
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 
                     <div
                         class="bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 flex flex-col border border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 fade-in-up">
@@ -1567,7 +1525,7 @@
             <div class="section-divider my-16"></div>
         </div>
 
-        <section id="skills" class="py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4">
+        <section id="skills" class="py-12 sm:py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4 sm:px-6">
             <h2
                 class="text-3xl md:text-4xl font-bold text-white text-center mb-16 fade-in-up border-b-2 border-blue-500 pb-4 inline-block mx-auto w-auto text-glow">
                 Technical Skills
@@ -2136,7 +2094,7 @@
             <div class="section-divider my-16"></div>
         </div>
 
-        <section id="education" class="py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl">
+        <section id="education" class="py-12 sm:py-16 bg-gray-900/40 backdrop-blur-xl rounded-xl px-4 sm:px-6">
             <div class="container mx-auto px-4">
 
                 <h2
@@ -2152,7 +2110,7 @@
                             <a href="https://www.tamu.edu/" target="_blank" rel="noopener noreferrer"
                                 class="absolute inset-0 z-10" aria-label="Visit Texas A&M University Homepage"></a>
                             <div
-                                class="bg-gray-900/60 p-8 flex items-center justify-center flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-700 shadow-inner sm:aspect-square">
+                                class="bg-gray-900/60 p-4 sm:p-6 lg:p-8 flex items-center justify-center flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-700 shadow-inner sm:aspect-square">
                                 <img src="https://files.marcomm.tamu.edu/marcomm/2024/05/23180154/TAM-Stacked-AllWhite-2.png"
                                     alt="Texas A&M University Logo" class="w-20 h-20 sm:w-28 sm:h-28 object-contain">
                             </div>
@@ -2175,7 +2133,7 @@
                                 class="absolute inset-0 z-10"
                                 aria-label="Visit National Institute of Technology Homepage"></a>
                             <div
-                                class="bg-gray-900/60 p-8 flex items-center justify-center flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-700 shadow-inner sm:aspect-square">
+                                class="bg-gray-900/60 p-4 sm:p-6 lg:p-8 flex items-center justify-center flex-shrink-0 border-b sm:border-b-0 sm:border-r border-gray-700 shadow-inner sm:aspect-square">
                                 <img src="https://www.nitt.edu/home/about/High-Resolution-Emblem.png"
                                     alt="National Institute of Technology Logo"
                                     class="w-20 h-20 sm:w-28 sm:h-28 object-contain">
