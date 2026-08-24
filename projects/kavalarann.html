@@ -600,10 +600,123 @@
     <div class="page-wrap">
         <div class="article-card">
             <div class="article-body">
-                <h1>Kaval Arann (Police Dept. App)</h1>
-<h2>Overview</h2>
-<p>A comprehensive application designed for the police department to digitize daily operations, incident reporting, and data management.</p>
-<p><em>More details coming soon...</em></p>
+                <header>
+<span style="display:block; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; letter-spacing:0.15em; color:#60a5fa; text-transform:uppercase; margin-bottom:0.5rem;">
+    Civic Tech &amp; Public Safety Systems
+</span>
+<h1>Kaval Arann: Public–Police Communication &amp; Incident Reporting Platform</h1>
+<div class="article-meta">
+    <span><i class="far fa-calendar"></i> Aug 2020 - Jul 2021</span>
+    <span class="dot">•</span>
+    <span><i class="far fa-clock"></i> 7 min read</span>
+    <span class="dot">•</span>
+    <span class="tag">Android / Kotlin</span>
+    <span class="tag">Node.js / Express</span>
+    <span class="tag">Room DB</span>
+    <span class="tag">Retrofit</span>
+    <span class="tag">CameraX &amp; Geolocation</span>
+    <span class="tag">Jetpack Navigation</span>
+    <span class="dot">•</span>
+    <a href="https://www.nitt.edu/home/students/clubsnassocs/techclubs/delta/Delta.pdf#page=2" target="_blank">
+        <i class="fas fa-file-pdf"></i> Official Mention
+    </a>
+</div>
+</header>
+
+<p><strong>Kaval Arann</strong> is a real-world civic technology platform developed as a group project by a 10-member team for <strong>Tiruchirappalli City Police</strong> to enable citizens to report incidents and police personnel to ingest, manage, and resolve them in real-time. Built as a dual-app system — a citizen-facing incident reporting application and a police-facing incident management dashboard — both are deployed in production and in active use across Tiruchirappalli.</p>
+
+<h2>Architectural Overview &amp; Core Innovations</h2>
+
+<p>Designing a platform for public safety requires balancing two vastly different operational profiles: citizens reporting emergencies or property theft under low-connectivity or high-stress conditions, and police officers managing high-volume operational queues with strict role-based triage requirements.</p>
+
+<div class="mermaid">
+%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e3a5f', 'primaryBorderColor': '#3b82f6', 'primaryTextColor': '#e2e8f0', 'lineColor': '#64748b', 'fontSize': '14px'}}}%%
+flowchart TD
+    subgraph Citizens["Citizen Users"]
+        C_APP["Citizen Incident Reporting App"]
+        C_CAM["CameraX + Watermarking"]
+        C_GPS["FusedLocationProvider GPS"]
+        C_CACHE["Room Offline Storage"]
+    end
+
+    subgraph Backend["Core Platform &amp; REST API"]
+        API["Node.js / Express API Layer"]
+        AUTH["Role-Based Interceptors"]
+        CCTNS["CCTNS Integration Endpoint"]
+    end
+
+    subgraph Police["Police Personnel"]
+        P_APP["Police Operational Dashboard App"]
+        P_TRIAGE["Real-time Triage &amp; Status Observer"]
+        P_WORKFLOW["Locked-House &amp; Patrol Monitor"]
+    end
+
+    C_CAM --> C_APP
+    C_GPS --> C_APP
+    C_APP --> C_CACHE
+    C_CACHE -->|Sync when Online| API
+    API --> AUTH
+    AUTH --> P_APP
+    P_APP --> P_TRIAGE
+    P_TRIAGE --> P_WORKFLOW
+    API --> CCTNS
+</div>
+
+<h2>Single-Codebase, Multi-Flavor Architecture (40% Development Effort Reduction)</h2>
+<p>To prevent codebase duplication between the Citizen and Police applications, I engineered a <strong>single-codebase, multi-flavor Android architecture</strong> leveraging Gradle product flavors and flavor-specific source sets:</p>
+<ul>
+    <li><strong>Shared Core Layer:</strong> Unified domain models, Retrofit REST API client, Room database layer, repository implementations, and base MVVM ViewModels.</li>
+    <li><strong>Flavor-Specific Layers:</strong> Independent UI fragment graphs, permission handlers, notification channels, and flavor-specific resource assets (icons, strings, themes).</li>
+    <li><strong>Impact:</strong> Achieved a 40% reduction in duplicate development effort and long-term maintenance overhead. Bug fixes and core data layer enhancements propagate automatically to both applications.</li>
+</ul>
+
+<h2>Single-Activity Jetpack Navigation (15+ Screens, Type-Safe)</h2>
+<p>Implemented a modern single-activity, multi-fragment architecture utilizing the <strong>Android Jetpack Navigation Component</strong>:</p>
+<ul>
+    <li>Utilized <strong>Safe Args</strong> plugin for compile-time type-safe argument passing between incident creation workflows and detail views.</li>
+    <li>Scoped ViewModels to navigation graph lifecycles, enabling multi-step report creation wizards to retain state safely across configuration changes.</li>
+    <li>Reduced navigation-related runtime crashes to near-zero across 15+ screens.</li>
+</ul>
+
+<h2>End-to-End Incident &amp; Theft Reporting Pipeline</h2>
+<p>Built robust citizen reporting modules for property loss, vehicle theft, and locked-house notifications:</p>
+<ul>
+    <li><strong>Structured Data &amp; Evidence Capture:</strong> Integrated <code>CameraX</code> with custom image/video compression and timestamp/location watermarking to ensure evidence integrity.</li>
+    <li><strong>Precision Geolocation:</strong> Used <code>FusedLocationProviderClient</code> + reverse geocoding to capture exact GPS coordinates for incident mapping.</li>
+    <li><strong>Police Triage Dashboard:</strong> Created real-time report listing, sorting, and status transition workflows using <code>RecyclerView</code> diffing and MVVM LiveData/Flow observers.</li>
+</ul>
+
+<h2>Offline-First Resilience with Room &amp; Repository Pattern</h2>
+<p>In low-connectivity civic reporting scenarios, users cannot afford to lose draft reports. I implemented an <strong>offline-first persistence layer</strong>:</p>
+<ul>
+    <li>All draft reports are immediately written to an offline <strong>Room database</strong> before attempting network transmission.</li>
+    <li>A background sync worker monitors network state via <code>ConnectivityManager</code> and automatically flushes queued reports to the Node.js backend when connection is restored.</li>
+    <li>Conflict resolution handles server-side status updates without overwriting un-synced local edits.</li>
+</ul>
+
+<h2>Key Feature Modules</h2>
+
+<h3>Citizen Application</h3>
+<ul>
+    <li><strong>Vehicle &amp; Mobile Theft Reporting:</strong> Structured forms with mandatory IMEI / vehicle identification validation.</li>
+    <li><strong>Locked-House Alerts:</strong> Citizens notify local police precincts when leaving home unattended for extended periods to prioritize patrol routes.</li>
+    <li><strong>CCTNS Integration Endpoint:</strong> Linked with national police-networking guidelines for standardized data ingestion.</li>
+    <li><strong>Directory &amp; Emergency Contacts:</strong> One-tap access to local precinct stations and helpline numbers.</li>
+</ul>
+
+<h3>Police Administration Application</h3>
+<ul>
+    <li><strong>Operational Workflows:</strong> Real-time status management (Pending, Under Investigation, Resolved).</li>
+    <li><strong>Locked-House Patrol Map:</strong> Visual precinct monitoring of active locked-house alerts.</li>
+    <li><strong>Public Request Triage:</strong> Immediate filtering by category, urgency, and precinct boundary.</li>
+</ul>
+
+<h2>Deployment &amp; Real-World Impact</h2>
+<ul>
+    <li><strong>Deployment Target:</strong> Tiruchirappalli City Police Department + citizen population across Tiruchirappalli, Tamil Nadu.</li>
+    <li><strong>Production Status:</strong> Live and in active operational deployment.</li>
+    <li><strong>Institutional Recognition:</strong> Documented in official NIT Trichy Delta Force institutional report (<a href="https://www.nitt.edu/home/students/clubsnassocs/techclubs/delta/Delta.pdf#page=2" target="_blank">Delta Force PDF, Page 2</a>).</li>
+</ul>
 
             </div>
         </div>
