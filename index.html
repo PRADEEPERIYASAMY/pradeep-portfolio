@@ -259,13 +259,14 @@
 
 <body class="antialiased bg-[#03020c] text-white">
 
-    <div class="fixed inset-0 z-[-2] w-full h-full overflow-hidden">
+    <div class="fixed inset-0 z-[-2] w-full h-full overflow-hidden pointer-events-none">
         <video src="blackhole.webm"
-            class="absolute left-0 top-[-250px] w-full h-[650px] md:top-[-270px] md:h-[700px] lg:w-full object-cover opacity-70 rotate-180"
+            class="absolute inset-0 w-full h-full object-cover opacity-60 rotate-180"
             autoplay loop muted playsinline
             onerror="this.parentElement.style.backgroundColor='#03020c'; this.style.display='none'; console.error('Video failed to load.')">
         </video>
-        <div class="w-full h-full bg-[#03020c] absolute inset-0 z-[-1]"></div>
+        <!-- Soft gradient mask blending video edges seamlessly into background -->
+        <div class="absolute inset-0 z-[-1] pointer-events-none" style="background: radial-gradient(circle at 25% 25%, transparent 30%, #03020c 85%), linear-gradient(to bottom, transparent 40%, #03020c 98%);"></div>
     </div>
 
     <div class="fixed inset-0 z-[-1] w-full h-full opacity-70">
