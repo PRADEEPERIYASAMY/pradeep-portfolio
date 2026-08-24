@@ -47,6 +47,17 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 ## 3. Experience
 *Layout: A vertical interactive timeline of professional roles and internships. Clicking on an entry expands it to show detailed bullet points and technologies used.*
 
+### Graduate Student Worker
+**Texas A&M University** | *Feb 2026 - Present* | College Station, TX
+- Architected Flask → FastAPI migration for Texas Congestion Analysis Tool (TCAT), modernizing statewide transportation analytics platform serving TxDOT planners and engineers; designed incremental rollout with shared business logic layer enabling 3–5× concurrent request handling without downtime.
+- Engineered legacy → React frontend modernization (component-based architecture, Redux state management, React Query for server-state caching); established component library (map visualization, tables, report forms) enabling parallel frontend/backend development.
+- Built National Bridge Structural Failure Engine analyzing 624K+ bridges across 28 years of historical NBI data using DuckDB + Parquet (columnar storage, projection pushdown) enabling multi-gigabyte pipeline on 16GB RAM without expensive infrastructure scaling.
+- Engineered XGBoost-based risk prediction system with separate models for 7 failure categories (scour, collision, deterioration, etc.); handled class imbalance via oversampling + threshold tuning + cost-weighted loss, improving rare-event detection (collision failures ~1% of data).
+- Implemented T−1 temporal labeling pipeline matching historical NBI snapshots to documented bridge failures, eliminating survivor bias; validated against state-level records and confidence thresholds (year-built consistency, anomaly detection) reducing false-positive labels by 40%.
+- Designed SHAP-based feature importance analysis deriving global and local explanations for each bridge's failure risk; surfaced top-5 risk drivers per failure category (e.g., waterway conditions dominate scour predictions, clearance dominates collision predictions).
+- Validated models using ROC-AUC, PR-AUC, and calibration metrics on held-out 2020–2025 failures; tested for geographic bias (rural vs. urban Texas) and age bias (new vs. old bridges) ensuring fair scoring across diverse bridge populations.
+- Generated 25K-bridge shortlist (4% of inventory) prioritizing inspection/maintenance based on risk thresholds (scour >60%, collision >50%, deterioration >70%); directly informed TxDOT's accelerated inspection roadmap and maintenance budget allocation.
+
 ### Software Development Engineer
 **Optmyzr** | *Jun 2023 - Aug 2025* | Hyderabad, India
 - Architected distributed GraphQL query layer reducing dashboard load times from 10–30 min → <1 sec (60–180× improvement); pivoted MongoDB → DuckDB mid-project when performance hit a wall.

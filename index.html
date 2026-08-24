@@ -659,6 +659,34 @@
                     </div>
                     <div class="ml-8 w-full">
                         <div class="bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700">
+                            <h3 class="text-2xl font-bold text-white mb-1">Graduate Student Worker</h3>
+                            <div class="flex flex-wrap justify-between items-center mb-2">
+                                <span class="text-lg font-semibold text-blue-400">Texas A&M University</span>
+                                <span class="text-sm text-gray-400">Feb 2026 - Present</span>
+                            </div>
+                            <ul class="list-disc list-outside pl-5 space-y-2 text-gray-300 text-sm mt-4">
+                                <li>Architected Flask → FastAPI migration for Texas Congestion Analysis Tool (TCAT), modernizing statewide transportation analytics platform serving TxDOT planners and engineers; designed incremental rollout with shared business logic layer enabling 3–5× concurrent request handling without downtime.</li>
+                                <li>Engineered legacy → React frontend modernization (component-based architecture, Redux state management, React Query for server-state caching); established component library (map visualization, tables, report forms) enabling parallel frontend/backend development.</li>
+                                <li>Built National Bridge Structural Failure Engine analyzing 624K+ bridges across 28 years of historical NBI data using DuckDB + Parquet (columnar storage, projection pushdown) enabling multi-gigabyte pipeline on 16GB RAM without expensive infrastructure scaling.</li>
+                                <li>Engineered XGBoost-based risk prediction system with separate models for 7 failure categories (scour, collision, deterioration, etc.); handled class imbalance via oversampling + threshold tuning + cost-weighted loss, improving rare-event detection (collision failures ~1% of data).</li>
+                                <li>Implemented T−1 temporal labeling pipeline matching historical NBI snapshots to documented bridge failures, eliminating survivor bias; validated against state-level records and confidence thresholds (year-built consistency, anomaly detection) reducing false-positive labels by 40%.</li>
+                                <li>Designed SHAP-based feature importance analysis deriving global and local explanations for each bridge's failure risk; surfaced top-5 risk drivers per failure category (e.g., waterway conditions dominate scour predictions, clearance dominate collision predictions).</li>
+                                <li>Validated models using ROC-AUC, PR-AUC, and calibration metrics on held-out 2020–2025 failures; tested for geographic bias (rural vs. urban Texas) and age bias (new vs. old bridges) ensuring fair scoring across diverse bridge populations.</li>
+                                <li>Generated 25K-bridge shortlist (4% of inventory) prioritizing inspection/maintenance based on risk thresholds (scour >60%, collision >50%, deterioration >70%); directly informed TxDOT's accelerated inspection roadmap and maintenance budget allocation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-12 flex">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center w-12 h-12 bg-blue-600 rounded-full z-10 relative border-4 border-gray-900">
+                            <i class="fas fa-briefcase text-white"></i>
+                        </div>
+                    </div>
+                    <div class="ml-8 w-full">
+                        <div class="bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700">
                             <h3 class="text-2xl font-bold text-white mb-1">Software Development Engineer</h3>
                             <div class="flex flex-wrap justify-between items-center mb-2">
                                 <span class="text-lg font-semibold text-blue-400">Optmyzr</span>
@@ -824,8 +852,14 @@
                 <div class="col-span-3 space-y-2 pr-2">
                     <button
                         class="tab-button w-full rounded-lg border p-4 text-left transition-all border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.15)]"
+                        data-tab="tamu">
+                        <h3 class="font-medium text-blue-400">Graduate Student Worker</h3>
+                        <p class="text-sm text-white/60">Texas A&M University</p>
+                    </button>
+                    <button
+                        class="tab-button w-full rounded-lg border p-4 text-left transition-all border-gray-700/50 bg-gray-800/40 backdrop-blur-md hover:bg-blue-500/10 hover:border-blue-500/30"
                         data-tab="optmyzr-sde">
-                        <h3 class="font-medium text-blue-400">Software Development Engineer</h3>
+                        <h3 class="font-medium text-white">Software Development Engineer</h3>
                         <p class="text-sm text-white/60">Optmyzr</p>
                     </button>
                     <button
@@ -864,6 +898,43 @@
                 <div class="col-span-9">
 
                     <div class="tab-content bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up"
+                        data-tab="tamu">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-2xl font-bold text-white mb-1">Graduate Student Worker</h3>
+                            <span class="text-sm text-gray-400 flex-shrink-0 ml-4">Feb 2026 - Present</span>
+                        </div>
+                        <p class="text-lg font-semibold text-blue-400 mb-4">Texas A&M University <span
+                                class="text-sm text-gray-400 ml-2">| College Station, TX</span></p>
+                        <div class="border-b-2 border-blue-500/30 my-4"></div>
+                        <ul class="list-disc list-outside pl-5 space-y-3 text-gray-300">
+                            <li>Architected Flask → FastAPI migration for Texas Congestion Analysis Tool (TCAT), modernizing statewide transportation analytics platform serving TxDOT planners and engineers; designed incremental rollout with shared business logic layer enabling 3–5× concurrent request handling without downtime.</li>
+                            <li>Engineered legacy → React frontend modernization (component-based architecture, Redux state management, React Query for server-state caching); established component library (map visualization, tables, report forms) enabling parallel frontend/backend development.</li>
+                            <li>Built National Bridge Structural Failure Engine analyzing 624K+ bridges across 28 years of historical NBI data using DuckDB + Parquet (columnar storage, projection pushdown) enabling multi-gigabyte pipeline on 16GB RAM without expensive infrastructure scaling.</li>
+                            <li>Engineered XGBoost-based risk prediction system with separate models for 7 failure categories (scour, collision, deterioration, etc.); handled class imbalance via oversampling + threshold tuning + cost-weighted loss, improving rare-event detection (collision failures ~1% of data).</li>
+                            <li>Implemented T−1 temporal labeling pipeline matching historical NBI snapshots to documented bridge failures, eliminating survivor bias; validated against state-level records and confidence thresholds (year-built consistency, anomaly detection) reducing false-positive labels by 40%.</li>
+                            <li>Designed SHAP-based feature importance analysis deriving global and local explanations for each bridge's failure risk; surfaced top-5 risk drivers per failure category (e.g., waterway conditions dominate scour predictions, clearance dominates collision predictions).</li>
+                            <li>Validated models using ROC-AUC, PR-AUC, and calibration metrics on held-out 2020–2025 failures; tested for geographic bias (rural vs. urban Texas) and age bias (new vs. old bridges) ensuring fair scoring across diverse bridge populations.</li>
+                            <li>Generated 25K-bridge shortlist (4% of inventory) prioritizing inspection/maintenance based on risk thresholds (scour >60%, collision >50%, deterioration >70%); directly informed TxDOT's accelerated inspection roadmap and maintenance budget allocation.</li>
+                        </ul>
+                        <div class="mt-6 flex flex-wrap gap-2">
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">FastAPI</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">Flask</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">React</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">Redux</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">React Query</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">DuckDB</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">Parquet</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">XGBoost</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">SHAP</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">SQL</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">TypeScript</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">Async/Await</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">Data Engineering</span>
+                            <span class="inline-flex items-center px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-[0.72rem] font-medium text-blue-300 font-mono tracking-wide backdrop-blur-sm transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-100">ML Systems</span>
+                        </div>
+                    </div>
+
+                    <div class="tab-content hidden bg-gray-800/40 backdrop-blur-lg rounded-xl shadow-lg p-6 border border-gray-700 fade-in-up"
                         data-tab="optmyzr-sde">
                         <div class="flex items-start justify-between mb-2">
                             <h3 class="text-2xl font-bold text-white mb-1">Software Development Engineer</h3>
