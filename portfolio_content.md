@@ -98,8 +98,14 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 
 ### Mentor & Developer
 **Delta Force (NIT Trichy)** | *Aug 2020 - Jul 2021*
-- Mentored 24 developers, teaching scalable app/web architectures.
-- Constructed core modules for Research Scholars Forum and Code Character, deployed university-wide.
+- Architected Kaval Arann — public-police communication & incident reporting platform deployed in production across Tiruchirappalli City Police; dual-app system (citizen-facing incident reporting app + police-facing incident management dashboard) in active use.
+- Engineered single-codebase, multi-flavor Android architecture generating two distinct APKs from shared codebase (Retrofit API client, Room data layer, MVVM business logic); achieved 40% reduction in duplicate development effort and maintenance burden.
+- Designed navigation architecture using Android Jetpack Navigation Component (15+ screens, type-safe argument passing via Safe Args, shared ViewModels) enabling seamless transitions with near-zero navigation-related crashes.
+- Implemented offline-first persistence layer using Room with repository pattern; local drafts sync automatically via Retrofit REST API once network resumes — critical for low-connectivity civic reporting scenarios.
+- Built end-to-end incident reporting pipeline: structured data capture, FusedLocationProvider geolocation, CameraX-based media evidence (image/video with watermarking), real-time police dashboard for triage and status management.
+- Designed role-based access control at API layer (Retrofit interceptors) and UI layer (role-gated fragments) supporting citizen submissions and police operational workflows; enforced principle of least privilege across 10-member team.
+- Mentored 24 incoming Delta Force developers on scalable architectures, Git collaboration, code review culture, and debugging practices; established curriculum adopted in subsequent cohorts and promoted 5 junior developers to leadership roles.
+- Led FunLear v2 open-source project as part of Delta Winter of Code, mentoring first-time contributors on codebase navigation, branching strategies, constructive code review, and transition from individual programming to collaborative software engineering.
 
 ---
 
