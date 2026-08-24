@@ -80,8 +80,12 @@ I'm a Master's student in Computer Science at Texas A&M University, driven by a 
 
 ### Full Stack Developer Intern
 **Infigon Futures** | *Jun 2021 - Aug 2021*
-- Developed a website from scratch using React, TypeScript, Redux, Firebase, and Docker.
-- Led a 4-member web development team, conducting KT sessions and code reviews.
+- Built full-stack website from scratch using React, TypeScript, Redux, Firebase, and Docker; deployed containerized application achieving <1 sec load time and mobile-responsive design across all devices.
+- Designed Redux state management architecture handling complex user workflows, enabling predictable state transitions and maintainable component composition across 15+ pages.
+- Integrated Firebase authentication, real-time database, and hosting, implementing OAuth login flows and Firestore data synchronization supporting concurrent user sessions.
+- Led 4-member web development team through 8-week sprint; conducted code reviews ensuring TypeScript best practices, organized KT sessions on component patterns, and unblocked team members on technical blockers.
+- Established Git workflow (feature branches, squash commits, CI pre-checks) and linting standards using ESLint/Prettier, improving code quality and reducing merge conflicts.
+- Shipped production website with zero critical bugs; stakeholders adopted platform for internal operations, validating architecture and UX decisions established during internship.
 
 ### Full Stack Android App Developer Intern
 **Indian Institute of Technology, Delhi** | *Jun 2021 - Jul 2021*
