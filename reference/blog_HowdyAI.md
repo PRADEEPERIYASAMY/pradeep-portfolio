@@ -25,7 +25,7 @@ Ask a naive RAG system "what are the prereqs for CSCE 482?" and there's a real c
 
 ## Orchestrating Safety with LangGraph
 
-The naive approach to RAG is a straight pipeline: embed query $\rightarrow$ fetch nearest neighbors $\rightarrow$ stuff into prompt $\rightarrow$ generate. This fails constantly in the real world. Adversarial queries bypass simple prompt instructions, and irrelevant search results cause the LLM to hallucinate connections that don't exist.
+The naive approach to RAG is a straight pipeline: embed query → fetch nearest neighbors → stuff into prompt → generate. This fails constantly in the real world. Adversarial queries bypass simple prompt instructions, and irrelevant search results cause the LLM to hallucinate connections that don't exist.
 
 To solve this, I decoupled the workflow using **LangGraph**, treating every stage of the query lifecycle as a discrete, observable node in a state machine. This makes the pipeline composable and explicitly auditable.
 
